@@ -21,7 +21,7 @@ import { CHANGE_USERNAME,
 export const initialState = fromJS({
   username: '',
   currentEmployee: null,
-  employeeList: null,
+  employeeList: [],
 });
 
 function homeReducer(state = initialState, action) {

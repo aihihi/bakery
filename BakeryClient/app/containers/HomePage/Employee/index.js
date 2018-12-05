@@ -52,7 +52,7 @@ export class Employee extends React.PureComponent {
     return (
       <div>
         <EmployeeList
-
+          data={this.props.employeeList}
         />
         <EmployeeInput
           initialValues={this.state.values}
@@ -69,6 +69,7 @@ export class Employee extends React.PureComponent {
 
 Employee.propTypes = {
   actions: PropTypes.object,
+  employeeList: PropTypes.array,
 };
 
 const mapStateToProps = createStructuredSelector({
