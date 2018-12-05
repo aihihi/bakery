@@ -56,7 +56,7 @@ const EmployeeInput = ({ intl, classes, onSubmit, onChange, values, disabled, bu
         }}
         onChange={handleChange('mobilePhone')}
         onBlur={handleBlur('mobilePhone')}
-        placeholder="Mobile Phone"
+        placeholder="Please enter Mobile Phone"
         margin="normal"
         fullWidth
         disabled={disabled || busy}
