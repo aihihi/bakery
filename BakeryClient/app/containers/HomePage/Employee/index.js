@@ -6,8 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -16,10 +14,12 @@ import { createStructuredSelector } from 'reselect';
 // import injectSaga from 'utils/injectSaga';
 import {
 } from 'containers/App/selectors';
-import messages from '../messages';
+// import messages from '../messages';
 import { makeSelectEmployeeList } from './selectors';
 import { saveEmployeeRequest, loadEmployeeListRequest } from './actions';
 import EmployeeInput from './EmployeeInput';
+import EmployeeList from './EmployeeList';
+
 /* eslint-disable react/prefer-stateless-function */
 export class Employee extends React.PureComponent {
   constructor(props) {
@@ -50,13 +50,19 @@ export class Employee extends React.PureComponent {
 
   render() {
     return (
-      <EmployeeInput
-        initialValues={this.state.values}
-        onSubmit={this.handleFormSubmit}
-        onChange={this.handleFormChange}
-        disabled={false}
-        busy={false}
-      />
+      <div>
+        <EmployeeList
+
+        />
+        <EmployeeInput
+          initialValues={this.state.values}
+          onSubmit={this.handleFormSubmit}
+          onChange={this.handleFormChange}
+          disabled={false}
+          busy={false}
+        />
+      </div>
+
     );
   }
 }
