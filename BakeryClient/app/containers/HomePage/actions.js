@@ -15,7 +15,13 @@
  *    }
  */
 
-import { CHANGE_USERNAME, GET_BAKERY_STORES } from './constants';
+import { CHANGE_USERNAME,
+  SAVE_EMPLOYEE_REQUEST,
+  SAVE_EMPLOYEE_SUCCESS,
+  SAVE_EMPLOYEE_ERROR,
+  LOAD_EMPLOYEE_LIST_REQUEST,
+  LOAD_EMPLOYEE_LIST_SUCCESS,
+  LOAD_EMPLOYEE_LIST_ERROR } from './constants';
 
 /**
  * Changes the input field of the form
@@ -30,10 +36,39 @@ export function changeUsername(name) {
     name,
   };
 }
-
-export function getBakeryStores() {
+export function saveEmployeeRequest(payload) {
   return {
-    type: GET_BAKERY_STORES,
-    name,
+    type: SAVE_EMPLOYEE_REQUEST,
+    payload,
+  };
+}
+export function saveEmployeeSuccess(payload) {
+  return {
+    type: SAVE_EMPLOYEE_SUCCESS,
+    payload,
+  };
+}
+export function saveEmployeeFailure(payload) {
+  return {
+    type: SAVE_EMPLOYEE_ERROR,
+    payload,
+  };
+}
+export function loadEmployeeListRequest(payload) {
+  return {
+    type: LOAD_EMPLOYEE_LIST_REQUEST,
+    payload,
+  };
+}
+export function loadEmployeeListSuccess(payload) {
+  return {
+    type: LOAD_EMPLOYEE_LIST_SUCCESS,
+    payload,
+  };
+}
+export function loadEmployeeListFailure(payload) {
+  return {
+    type: LOAD_EMPLOYEE_LIST_ERROR,
+    payload,
   };
 }

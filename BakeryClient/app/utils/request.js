@@ -1,44 +1,63 @@
-/**
- * Parses the JSON returned by a network request
- *
- * @param  {object} response A response from a network request
- *
- * @return {object}          The parsed JSON from the request
- */
-function parseJSON(response) {
-  if (response.status === 204 || response.status === 205) {
-    return null;
-  }
-  return response.json();
+import axios from 'axios';
+import { put, call, select } from 'redux-saga/effects';
+// import { logoutUnauthorized } from 'containers/App/actions/authActions';
+// import { selectAuthAccessToken } from 'containers/App/selectors';
+
+const apiEndpoint = 'localhost:44394/api';
+
+const requestInstance = axios.create({
+  baseURL: apiEndpoint,
+});
+
+function request(url, options) {
+  const requestOptions = Object.assign({}, options);
+  requestOptions.url = url;
+
+  return requestInstance.request(url, requestOptions)
+  .then((response) => ({ payload: response.data }))
+  .catch((error) => ({ error }));
 }
 
-/**
- * Checks if a network request came back fine, and throws an error if not
- *
- * @param  {object} response   A response from a network request
- *
- * @return {object|undefined} Returns either the response, or throws an error
- */
-function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  }
-
-  const error = new Error(response.statusText);
-  error.response = response;
-  throw error;
-}
+// !!! IMPORTANT !!!
+// This next export has been added into to allow us to mock the request function
+// while testing requestSaga, so to avoid doing an actual http request. Please
+// do not import this into actual production code, it will be going away as soon
+// as we find a better way to test requestSaga.
+// TODO: remove lib and update request.test.js to mock axios instead
+export const lib = {
+  request,
+};
 
 /**
  * Requests a URL, returning a promise
  *
- * @param  {string} url       The URL we want to request
- * @param  {object} [options] The options we want to pass to "fetch"
+ * @param  {string} url                 The URL we want to request
+ * @param  {object} [options]           The options we want to pass to "fetch"
  *
- * @return {object}           The response data
+ * @return {object}                     The response data
  */
-export default function request(url, options) {
-  return fetch(url, options)
-    .then(checkStatus)
-    .then(parseJSON);
+export default function* requestSaga(url, options = {}) {
+//   const token = yield select(selectAuthAccessToken);
+  const requestOptions = Object.assign(options, {
+    headers: Object.assign(
+      options.headers || {},
+    //   !options.noAuth && { Authorization: `Bearer ${token}` },
+    //   {
+    //     'Content-Type': 'application/json',
+    //   },
+    ),
+  });
+
+  const { payload, error } = yield call(lib.request, url, requestOptions);
+//   if (error) {
+//     if (error.response && error.response.status) {
+//       if (error.response.status === 401 && !options.noAuth) {
+//         yield put(logoutUnauthorized());
+//         return null;
+//       }
+//     }
+//     throw error;
+//   }
+
+  return payload;
 }

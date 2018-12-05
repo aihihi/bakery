@@ -12577,11 +12577,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\BakeryAPI\\BakeryAPI\\BakeryAPI.csproj",
+      "projectUniqueName": "C:\\bakery\\BakeryAPI\\BakeryAPI\\BakeryAPI.csproj",
       "projectName": "BakeryAPI",
-      "projectPath": "F:\\BakeryAPI\\BakeryAPI\\BakeryAPI.csproj",
+      "projectPath": "C:\\bakery\\BakeryAPI\\BakeryAPI\\BakeryAPI.csproj",
       "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-      "outputPath": "F:\\BakeryAPI\\BakeryAPI\\obj\\",
+      "outputPath": "C:\\bakery\\BakeryAPI\\BakeryAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
