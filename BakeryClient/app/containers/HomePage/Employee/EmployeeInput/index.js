@@ -28,15 +28,15 @@ const EmployeeInput = ({ intl, classes, onSubmit, onChange, values, disabled, bu
     <form noValidate autoComplete="off" onSubmit={onSubmit}>
       <TextField
         required
-        error={hasErrors(errors.email)}
-        helperText={hasErrors(errors.email) ? errors.email : null}
-        id="email"
-        label={intl.formatMessage(messages.email)}
-        value={values.email}
-        onChange={handleChange('email')}
-        onBlur={handleBlur('email')}
+        error={hasErrors(errors.fullName)}
+        helperText={hasErrors(errors.fullName) ? errors.fullName : null}
+        id="fullName"
+        label="Full Name"
+        value={values.fullName}
+        onChange={handleChange('fullName')}
+        onBlur={handleBlur('fullName')}
         margin="normal"
-        placeholder={intl.formatMessage(messages.email_placeholder)}
+        placeholder="Please enter Full Name"
         InputLabelProps={{
           shrink: true,
         }}
@@ -46,19 +46,17 @@ const EmployeeInput = ({ intl, classes, onSubmit, onChange, values, disabled, bu
 
       <TextField
         required
-        error={hasErrors(errors.password)}
-        helperText={hasErrors(errors.password) ? errors.password : null}
-        id="password"
-        label={intl.formatMessage(messages.password)}
-        type="password"
-        value={values.password}
+        error={hasErrors(errors.mobilePhone)}
+        helperText={hasErrors(errors.mobilePhone) ? errors.mobilePhone : null}
+        id="mobilePhone"
+        label="Mobile Phone"
+        value={values.mobilePhone}
         InputLabelProps={{
           shrink: true,
         }}
-        onChange={handleChange('password')}
-        onBlur={handleBlur('password')}
-        autoComplete="current-password"
-        placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+        onChange={handleChange('mobilePhone')}
+        onBlur={handleBlur('mobilePhone')}
+        placeholder="Mobile Phone"
         margin="normal"
         fullWidth
         disabled={disabled || busy}
@@ -67,7 +65,7 @@ const EmployeeInput = ({ intl, classes, onSubmit, onChange, values, disabled, bu
       {/* TODO: @rob, Add button spinner on busy prop */}
       <Button
         type="submit"
-        variant="raised"
+        variant="contained"
         color="secondary"
         fullWidth
         className={classes.button}
@@ -75,7 +73,7 @@ const EmployeeInput = ({ intl, classes, onSubmit, onChange, values, disabled, bu
         onFocus={onSubmitFocus}
         disabled={disabled || busy}
       >
-        {intl.formatMessage(messages.login)}
+        Save
       </Button>
     </form>
   );
@@ -103,26 +101,22 @@ EmployeeInput.defaultProps = {
 };
 
 export default injectIntl(compose(
-  withFormValidation(isLoginFieldValid, ['email', 'password']),
+  withFormValidation(isLoginFieldValid, ['fullName', 'mobilePhone']),
   withStyles(styles)
 )(EmployeeInput));
 
 // TODO: Use i18n strings here.
 function isLoginFieldValid(name, values) {
   switch (name) {
-    case 'email':
+    case 'fullName':
       if (values[name].length < 1) {
-        return ['You must enter an email address'];
-      }
-
-      if (!isEmailAddressValid(values[name])) {
-        return ['Please enter a valid email address'];
+        return ['You must enter Full Name'];
       }
 
       return [];
-    case 'password':
+    case 'mobilePhone':
       if (values[name].length < 1) {
-        return ['You must enter a password'];
+        return ['You must enter a mobilePhone'];
       }
 
       return [];

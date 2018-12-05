@@ -17,7 +17,7 @@ import { createStructuredSelector } from 'reselect';
 import {
 } from 'containers/App/selectors';
 import messages from '../messages';
-import {  } from './selectors';
+import { makeSelectEmployeeList } from './selectors';
 import { saveEmployeeRequest, loadEmployeeListRequest } from './actions';
 import EmployeeInput from './EmployeeInput';
 /* eslint-disable react/prefer-stateless-function */
@@ -36,15 +36,16 @@ export class Employee extends React.PureComponent {
       },
     };
   }
-  componentDidMount() {
 
+  componentDidMount() {
+    this.props.actions.loadEmployeeListRequest();
   }
 
 
   handleFormChange = (values) => this.setState({ values })
 
   handleFormSubmit = () => {
-    this.props.saveData(this.state.values);
+    this.props.actions.saveEmployeeRequest(this.state.values);
   }
 
   render() {
@@ -62,16 +63,18 @@ export class Employee extends React.PureComponent {
 }
 
 Employee.propTypes = {
-  saveData: PropTypes.func,
+  actions: PropTypes.object,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = createStructuredSelector({
+  employeeList: makeSelectEmployeeList(),
 
 });
 
-const mapDispatchToProps = (dispatch) => ({
 
-  saveData: bindActionCreators(saveEmployeeRequest, dispatch),
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({ saveEmployeeRequest,
+    loadEmployeeListRequest }, dispatch),
 });
 
 const withConnect = connect(
