@@ -18,6 +18,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import Button from '@material-ui/core/es/Button/Button';
+import { Link } from 'react-router-dom';
 
 let counter = 0;
 function createData(name, calories, fat, carbs, protein) {
@@ -154,9 +156,11 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Nutrition
+            Employee List
           </Typography>
         )}
+        <Button
+        />
       </div>
       <div className={classes.spacer} />
       <div className={classes.actions}>

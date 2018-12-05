@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import { Switch, Route, withRouter } from 'react-router-dom';
+
 
 // import injectReducer from 'utils/injectReducer';
 // import injectSaga from 'utils/injectSaga';
@@ -51,16 +53,42 @@ export class Employee extends React.PureComponent {
   render() {
     return (
       <div>
-        <EmployeeList
-          data={this.props.employeeList}
+        {/*<Switch>*/}
+        <Route
+          path={`${this.props.match.url}/list`}
+          // path="/employee/list"
+          exact
+          render={(routeProps) => (
+            <EmployeeList {...routeProps} data={this.props.employeeList} />
+          )}
         />
-        <EmployeeInput
-          initialValues={this.state.values}
-          onSubmit={this.handleFormSubmit}
-          onChange={this.handleFormChange}
-          disabled={false}
-          busy={false}
+        <Route
+          path={`${this.props.match.url}/add-new`}
+          exact
+          render={(routeProps) => (
+           <EmployeeInput
+               {...routeProps}
+               initialValues={this.state.values}
+               onSubmit={this.handleFormSubmit}
+               onChange={this.handleFormChange}
+               disabled={false}
+               busy={false}
+            />
+          )}
         />
+
+        {/*</Switch>*/}
+
+        {/*<EmployeeList*/}
+          {/*data={this.props.employeeList}*/}
+        {/*/>*/}
+        {/*<EmployeeInput*/}
+          {/*initialValues={this.state.values}*/}
+          {/*onSubmit={this.handleFormSubmit}*/}
+          {/*onChange={this.handleFormChange}*/}
+          {/*disabled={false}*/}
+          {/*busy={false}*/}
+        {/*/>*/}
       </div>
 
     );
@@ -90,4 +118,5 @@ const withConnect = connect(
 
 export default compose(
   withConnect,
+  withRouter,
 )(Employee);
