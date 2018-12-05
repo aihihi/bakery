@@ -49,7 +49,6 @@ export class Employee extends React.PureComponent {
   }
 
   render() {
-
     return (
       <EmployeeInput
         initialValues={this.state.values}
