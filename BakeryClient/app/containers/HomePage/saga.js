@@ -4,7 +4,7 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
-import request from 'utils/request';
+import requestSaga from 'utils/request';
 import { SAVE_EMPLOYEE_REQUEST } from './Employee/constants';
 import { saveEmployeeSuccess, saveEmployeeFailure } from './Employee/actions';
 
@@ -12,13 +12,24 @@ import { saveEmployeeSuccess, saveEmployeeFailure } from './Employee/actions';
 /**
  * Github repos request/response handler
  */
-export function* saveEmployeeSaga() {
+export function* saveEmployeeSaga(action) {
   // Select username from store
   const requestURL = 'employees';
-
+  const { fullName, mobilePhone, address, birthday, joinedDate, note } = action.payload;
+  const config = {
+    method: 'POST',
+    data: {
+      fullName,
+      mobilePhone,
+      address,
+      birthday,
+      joinedDate,
+      note,
+    },
+  };
   try {
     // Call our request helper (see 'utils/request')
-    const response = yield call(request, requestURL);
+    const response = yield call(requestSaga, requestURL, config);
     yield put(saveEmployeeSuccess(response));
   } catch (err) {
     yield put(saveEmployeeFailure(err));

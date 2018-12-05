@@ -3,7 +3,7 @@ import { put, call, select } from 'redux-saga/effects';
 // import { logoutUnauthorized } from 'containers/App/actions/authActions';
 // import { selectAuthAccessToken } from 'containers/App/selectors';
 
-const apiEndpoint = 'localhost:44394/api';
+const apiEndpoint = 'https://localhost:44394/api/';
 
 const requestInstance = axios.create({
   baseURL: apiEndpoint,
