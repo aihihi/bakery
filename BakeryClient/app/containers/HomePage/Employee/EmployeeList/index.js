@@ -159,8 +159,10 @@ let EnhancedTableToolbar = props => {
             Employee List
           </Typography>
         )}
-        <Button
-        />
+        <Link to={`/employee/add-new`}>
+          Add new
+          {/*<Button>Add new employee</Button>*/}
+        </Link>
       </div>
       <div className={classes.spacer} />
       <div className={classes.actions}>

@@ -40,7 +40,7 @@ export default function App() {
       <Header />
       <Switch>
         {/*<Route exact path="/" component={HomePage} />*/}
-        <Route path="/employee" component={HomePage} />
+        <Route path="/" component={HomePage} />
         <Route path="/features" component={FeaturePage} />
         <Route path="" component={NotFoundPage} />
       </Switch>

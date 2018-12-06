@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter, Link } from 'react-router-dom';
 
 
 // import injectReducer from 'utils/injectReducer';
@@ -21,9 +21,10 @@ import { makeSelectEmployeeList } from './selectors';
 import { saveEmployeeRequest, loadEmployeeListRequest } from './actions';
 import EmployeeInput from './EmployeeInput';
 import EmployeeList from './EmployeeList';
+import Button from '@material-ui/core/es/Button/Button';
 
 /* eslint-disable react/prefer-stateless-function */
-export class Employee extends React.PureComponent {
+export class Employee extends React.Component {
   constructor(props) {
     super(props);
 
@@ -53,42 +54,34 @@ export class Employee extends React.PureComponent {
   render() {
     return (
       <div>
+        {/*<Link to="/employee/add-new">*/}
+        <Link to={`${this.props.match.url}/add-new`}>
+          Add new
+          {/*<Button>Add new employee</Button>*/}
+        </Link>
         {/*<Switch>*/}
         <Route
           path={`${this.props.match.url}/list`}
           // path="/employee/list"
-          exact
           render={(routeProps) => (
             <EmployeeList {...routeProps} data={this.props.employeeList} />
           )}
         />
         <Route
           path={`${this.props.match.url}/add-new`}
-          exact
-          render={(routeProps) => (
-           <EmployeeInput
-               {...routeProps}
-               initialValues={this.state.values}
-               onSubmit={this.handleFormSubmit}
-               onChange={this.handleFormChange}
-               disabled={false}
-               busy={false}
-            />
+          render={(props) => (
+            <EmployeeInput
+              location={`${this.props.match.url}/add-new`}
+              initialValues={this.state.values}
+              onSubmit={this.handleFormSubmit}
+              onChange={this.handleFormChange}
+              disabled={false}
+              busy={false}
+          />
           )}
         />
 
-        {/*</Switch>*/}
 
-        {/*<EmployeeList*/}
-          {/*data={this.props.employeeList}*/}
-        {/*/>*/}
-        {/*<EmployeeInput*/}
-          {/*initialValues={this.state.values}*/}
-          {/*onSubmit={this.handleFormSubmit}*/}
-          {/*onChange={this.handleFormChange}*/}
-          {/*disabled={false}*/}
-          {/*busy={false}*/}
-        {/*/>*/}
       </div>
 
     );

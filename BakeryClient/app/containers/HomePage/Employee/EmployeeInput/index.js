@@ -5,6 +5,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { withRouter } from 'react-router-dom';
 
 import { withFormValidation, hasErrors, isEmailAddressValid } from 'components/ValidatedFormHOC';
 
@@ -100,10 +101,11 @@ EmployeeInput.defaultProps = {
   errors: {},
 };
 
-export default injectIntl(compose(
+export default compose(
+  withRouter,
   withFormValidation(isLoginFieldValid, ['fullName', 'mobilePhone']),
   withStyles(styles)
-)(EmployeeInput));
+)(EmployeeInput);
 
 // TODO: Use i18n strings here.
 function isLoginFieldValid(name, values) {
