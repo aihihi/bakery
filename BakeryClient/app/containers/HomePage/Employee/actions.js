@@ -5,6 +5,9 @@ import {
   LOAD_EMPLOYEE_LIST_REQUEST,
   LOAD_EMPLOYEE_LIST_SUCCESS,
   LOAD_EMPLOYEE_LIST_ERROR,
+  LOAD_EMPLOYEE_PER_ID_REQUEST,
+  LOAD_EMPLOYEE_PER_ID_SUCCESS,
+  LOAD_EMPLOYEE_PER_ID_ERROR,
 } from './constants';
 
 /**
@@ -48,6 +51,24 @@ export function loadEmployeeListSuccess(payload) {
 export function loadEmployeeListFailure(payload) {
   return {
     type: LOAD_EMPLOYEE_LIST_ERROR,
+    payload,
+  };
+}
+export function loadEmployeePerIdRequest(payload) {
+  return {
+    type: LOAD_EMPLOYEE_PER_ID_REQUEST,
+    payload,
+  };
+}
+export function loadEmployeePerIdSuccess(payload) {
+  return {
+    type: LOAD_EMPLOYEE_PER_ID_SUCCESS,
+    payload,
+  };
+}
+export function loadEmployeePerIdFailure(payload) {
+  return {
+    type: LOAD_EMPLOYEE_PER_ID_ERROR,
     payload,
   };
 }

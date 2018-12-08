@@ -44,7 +44,6 @@ export class Employee extends React.Component {
     this.props.actions.loadEmployeeListRequest();
   }
 
-
   handleFormChange = (values) => this.setState({ values })
 
   handleFormSubmit = () => {
@@ -54,34 +53,49 @@ export class Employee extends React.Component {
   render() {
     return (
       <div>
-        {/*<Link to="/employee/add-new">*/}
-        <Link to={`${this.props.match.url}/add-new`}>
-          Add new
-          {/*<Button>Add new employee</Button>*/}
-        </Link>
-        {/*<Switch>*/}
-        <Route
-          path={`${this.props.match.url}/list`}
-          // path="/employee/list"
-          render={(routeProps) => (
-            <EmployeeList {...routeProps} data={this.props.employeeList} />
-          )}
-        />
-        <Route
-          path={`${this.props.match.url}/add-new`}
-          render={(props) => (
-            <EmployeeInput
-              location={`${this.props.match.url}/add-new`}
-              initialValues={this.state.values}
-              onSubmit={this.handleFormSubmit}
-              onChange={this.handleFormChange}
-              disabled={false}
-              busy={false}
+        <Switch>
+          <Route
+            path={`${this.props.match.url}`}
+            // path="/employee/list"
+            exact
+            render={(routeProps) => (
+              <EmployeeList {...routeProps} data={this.props.employeeList} />
+            )}
+          />
+          <Route
+            path={`${this.props.match.url}/list`}
+            exact
+            render={(routeProps) => (
+              <EmployeeList {...routeProps} data={this.props.employeeList} />
+            )}
+          />
+          <Route
+            path={`${this.props.match.url}/add-new`}
+            exact
+            render={(props) => (
+              <EmployeeInput
+                initialValues={this.state.values}
+                onSubmit={this.handleFormSubmit}
+                onChange={this.handleFormChange}
+                disabled={false}
+                busy={false}
+            />
+            )}
+          />
+          <Route
+            path={`${this.props.match.url}/:id`}
+            exact
+            render={(props) => (
+              <EmployeeInput
+                initialValues={this.state.values}
+                onSubmit={this.handleFormSubmit}
+                onChange={this.handleFormChange}
+                disabled={false}
+                busy={false}
           />
           )}
         />
-
-
+        </Switch>
       </div>
 
     );

@@ -20,7 +20,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import Button from '@material-ui/core/es/Button/Button';
 import { Link } from 'react-router-dom';
-
+import EmployeeInput from '../EmployeeInput';
 let counter = 0;
 function createData(name, calories, fat, carbs, protein) {
   counter += 1;
@@ -55,7 +55,7 @@ const rows = [
   { id: 'fullName', numeric: false, disablePadding: true, label: 'Full Name' },
   { id: 'mobilePhone', numeric: true, disablePadding: false, label: 'Mobile Phone' },
   { id: 'address', numeric: false, disablePadding: false, label: 'Address' },
-  { id: 'birthday', numeric: true, disablePadding: false, label: 'Birthday' },
+  { id: 'actions', numeric: true, disablePadding: false, label: 'Actions' },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -304,7 +304,7 @@ class EmployeeList extends React.Component {
                       </TableCell>
                       <TableCell numeric>{n.mobilePhone}</TableCell>
                       <TableCell>{n.address}</TableCell>
-                      <TableCell numeric>{n.birthday}</TableCell>
+                      <TableCell numeric><Link to={`/employee/${n.id}`}>Edit</Link></TableCell>
                     </TableRow>
                   );
                 })}
