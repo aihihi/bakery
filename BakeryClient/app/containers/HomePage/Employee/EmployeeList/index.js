@@ -20,7 +20,6 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import Button from '@material-ui/core/es/Button/Button';
 import { Link } from 'react-router-dom';
-import EmployeeInput from '../EmployeeInput';
 let counter = 0;
 function createData(name, calories, fat, carbs, protein) {
   counter += 1;
