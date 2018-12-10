@@ -54,7 +54,7 @@ export class Employee extends React.Component {
           <Route
             path={`${this.props.match.url}/:id`}
             exact
-            component={EmployeeInput}
+            render={props => <EmployeeInput {...props} />}
           />
         </Switch>
       </div>

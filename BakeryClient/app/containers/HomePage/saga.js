@@ -64,8 +64,6 @@ export function* saveEmployeeSaga(action) {
   }
 }
 
-
-
 /**
  * Root saga manages watcher lifecycle
  */

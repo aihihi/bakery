@@ -10,4 +10,7 @@ const selectHome = state => state.get('home', initialState);
 const makeSelectEmployeeList = () =>
   createSelector(selectHome, homeState => homeState.get('employeeList'));
 
-export { selectHome, makeSelectEmployeeList };
+const makeSelectEmployeePerId = () =>
+  createSelector(selectHome, homeState => homeState.get('currentEmployee'));
+
+export { selectHome, makeSelectEmployeeList, makeSelectEmployeePerId };
