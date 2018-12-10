@@ -34,6 +34,8 @@ function homeReducer(state = initialState, action) {
   switch (action.type) {
     case SAVE_EMPLOYEE_SUCCESS:
       return state.set('currentEmployee', action.payload);
+      case DELETE_EMPLOYEE_SUCCESS:
+      return state.set('currentEmployee', null);
     case LOAD_EMPLOYEE_LIST_SUCCESS:
       return state.set('employeeList', action.payload);
     case LOAD_EMPLOYEE_PER_ID_SUCCESS:

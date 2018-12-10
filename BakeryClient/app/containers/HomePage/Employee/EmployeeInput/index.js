@@ -5,49 +5,65 @@ import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import connect from 'react-redux/es/connect/connect';
 import { ADD_NEW, UPDATE_EDIT } from '../../../../utils/constants';
-import { makeSelectEmployeePerId } from '../selectors';
+import { makeSelectEmployeePerId, makeSelectEmployeeList } from '../selectors';
 import { loadEmployeePerIdRequest, saveEmployeeRequest } from '../actions';
 import EmployeeInputForm from './EmployeeInputForm';
+import { EditTwoTone } from '@material-ui/icons';
 
 class EmployeeInput extends React.Component {
-  static getDerivedStateFromProps(props, state) {
-    if (state.mode === UPDATE_EDIT && props.currentEmployee && props.currentEmployee.id !== state.values.id) {
-    // if (state.mode === UPDATE_EDIT && props.currentEmployee) {
-      // return { values: props.currentEmployee };
-      return { values: props.currentEmployee };
-    }
-    return { values: {}};
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   if (state.mode === UPDATE_EDIT && props.currentEmployee && props.currentEmployee.id !== state.values.id) {
+  //   // if (state.mode === UPDATE_EDIT && props.currentEmployee) {
+  //     // return { values: props.currentEmployee };
+  //     return { values: props.currentEmployee };
+  //   }
+  //   return { values: {}};
+  // }
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      mode: ADD_NEW,
-      values: {
-        id: '',
-        fullName: '',
-        mobilePhone: '',
-        address: '',
-        birthday: '',
-        joinedDate: '',
-        note: '',
-      },
-    };
-  }
-
-  componentDidMount() {
+    const { employeeList } = this.props;
     const { id } = this.props.match.params;
-    if (id) {
-      this.props.actions.loadEmployeePerIdRequest(id);
 
-      this.setState({
+    if (id && employeeList.length) {
+      const currentEmployee = employeeList.find(employee => (
+        employee.id === id
+      ));
+      this.state = {
         mode: UPDATE_EDIT,
-
-      });
-
+        // mode: ADD_NEW,
+        values: currentEmployee,
+      };
+    } else {
+      this.state = {
+        mode: ADD_NEW,
+        values: {
+          id: '',
+          fullName: '',
+          mobilePhone: '',
+          address: '',
+          birthday: '',
+          joinedDate: '',
+          note: '',
+        },
+      };
     }
+
+
   }
+
+  // componentDidMount() {
+  //   const { id } = this.props.match.params;
+  //   if (id) {
+  //     this.props.actions.loadEmployeePerIdRequest(id);
+  //
+  //     this.setState({
+  //       mode: UPDATE_EDIT,
+  //
+  //     });
+  //
+  //   }
+  // }
 
   // componentWillReceiveProps(nextProps, nextContext) {
   //   const { currentEmployee } = this.props;
@@ -110,7 +126,7 @@ class EmployeeInput extends React.Component {
     if (mode === UPDATE_EDIT) {
       return (
         <div>
-          { values.id && renderingForm }
+          { renderingForm }
 
         </div>
       );
@@ -132,7 +148,7 @@ class EmployeeInput extends React.Component {
 
 const mapStateToProps = createStructuredSelector({
   currentEmployee: makeSelectEmployeePerId(),
-
+  employeeList: makeSelectEmployeeList(),
 });
 
 

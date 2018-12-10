@@ -51,11 +51,13 @@ export class Employee extends React.Component {
             component={EmployeeInput}
 
           />
+          { this.props.employeeList && this.props.employeeList.length && 
           <Route
             path={`${this.props.match.url}/:id`}
             exact
             render={props => <EmployeeInput {...props} />}
-          />
+          /> }
+
         </Switch>
       </div>
 
