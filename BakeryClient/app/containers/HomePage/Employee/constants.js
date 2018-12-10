@@ -1,6 +1,9 @@
 export const SAVE_EMPLOYEE_REQUEST = 'EmployeeInput/SAVE_CHANGE_REQUEST';
 export const SAVE_EMPLOYEE_SUCCESS = 'EmployeeInput/SAVE_CHANGE_SUCCESS';
 export const SAVE_EMPLOYEE_ERROR = 'EmployeeInput/SAVE_CHANGE_ERROR';
+export const DELETE_EMPLOYEE_REQUEST = 'EmployeeInput/DELETE_REQUEST';
+export const DELETE_EMPLOYEE_SUCCESS = 'EmployeeInput/DELETE_SUCCESS';
+export const DELETE_EMPLOYEE_ERROR = 'EmployeeInput/DELETE_ERROR';
 export const LOAD_EMPLOYEE_LIST_REQUEST = 'ListEmployee/SAVE_CHANGE_REQUEST';
 export const LOAD_EMPLOYEE_LIST_SUCCESS = 'ListEmployee/SAVE_CHANGE_SUCCESS';
 export const LOAD_EMPLOYEE_LIST_ERROR = 'ListEmployee/SAVE_CHANGE_FAILURE';

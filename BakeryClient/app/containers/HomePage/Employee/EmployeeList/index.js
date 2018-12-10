@@ -20,11 +20,11 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import Button from '@material-ui/core/es/Button/Button';
 import { Link } from 'react-router-dom';
-let counter = 0;
-function createData(name, calories, fat, carbs, protein) {
-  counter += 1;
-  return { id: counter, name, calories, fat, carbs, protein };
-}
+// let counter = 0;
+// function createData(name, calories, fat, carbs, protein) {
+//   counter += 1;
+//   return { id: counter, name, calories, fat, carbs, protein };
+// }
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -168,7 +168,7 @@ let EnhancedTableToolbar = props => {
         {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton aria-label="Delete">
-              <DeleteIcon />
+              <DeleteIcon onClick={props.handleDelete} />
             </IconButton>
           </Tooltip>
         ) : (
@@ -225,7 +225,7 @@ class EmployeeList extends React.Component {
 
   handleSelectAllClick = event => {
     if (event.target.checked) {
-      this.setState(state => ({ selected: state.data.map(n => n.id) }));
+      this.setState(state => ({ selected: this.props.data.map(n => n.id) }));
       return;
     }
     this.setState({ selected: [] });
@@ -252,6 +252,13 @@ class EmployeeList extends React.Component {
     this.setState({ selected: newSelected });
   };
 
+  handleDeletePerId = () => {
+    const { selected } = this.state;
+    selected.map(employeeId => {
+      this.props.deleteEmployeeRequest(employeeId);
+
+    });
+  }
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
@@ -269,7 +276,7 @@ class EmployeeList extends React.Component {
 
     return (
       <Paper className={classes.root}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} handleDelete={this.handleDeletePerId}/>
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead

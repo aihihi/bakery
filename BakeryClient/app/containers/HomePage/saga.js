@@ -7,10 +7,13 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import requestSaga from 'utils/request';
 import { SAVE_EMPLOYEE_REQUEST, LOAD_EMPLOYEE_LIST_REQUEST,
   LOAD_EMPLOYEE_PER_ID_REQUEST,
+  DELETE_EMPLOYEE_REQUEST,
 } from './Employee/constants';
 import {
   saveEmployeeSuccess,
   saveEmployeeFailure,
+  deleteEmployeeSuccess,
+  deleteEmployeeFailure,
   loadEmployeeListSuccess,
   loadEmployeeListFailure,
   loadEmployeePerIdSuccess,
@@ -38,6 +41,19 @@ export function* loadEmployeePerIdSaga(action) {
     yield put(loadEmployeePerIdSuccess(response));
   } catch (err) {
     yield put(loadEmployeePerIdFailure(err));
+  }
+}
+export function* deleteEmployeeSaga(action) {
+  const requestURL = `employees/${action.payload}`;
+  const config = {
+    method: 'DELETE',
+  };
+  try {
+    // Call our request helper (see 'utils/request')
+    const response = yield call(requestSaga, requestURL, config);
+    yield put(deleteEmployeeSuccess(response));
+  } catch (err) {
+    yield put(deleteEmployeeFailure(err));
   }
 }
 export function* saveEmployeeSaga(action) {
@@ -73,6 +89,7 @@ export default function* employeeData() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield takeLatest(SAVE_EMPLOYEE_REQUEST, saveEmployeeSaga);
+  yield takeLatest(DELETE_EMPLOYEE_REQUEST, deleteEmployeeSaga);
   yield takeLatest(LOAD_EMPLOYEE_LIST_REQUEST, loadEmployeeListSaga);
   yield takeLatest(LOAD_EMPLOYEE_PER_ID_REQUEST, loadEmployeePerIdSaga);
 }

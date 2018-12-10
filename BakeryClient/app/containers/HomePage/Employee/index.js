@@ -15,7 +15,7 @@ import {
 } from 'containers/App/selectors';
 // import messages from '../messages';
 import { makeSelectEmployeeList } from './selectors';
-import { loadEmployeeListRequest } from './actions';
+import { loadEmployeeListRequest, deleteEmployeeRequest } from './actions';
 import EmployeeInput from './EmployeeInput';
 import EmployeeList from './EmployeeList';
 
@@ -42,7 +42,7 @@ export class Employee extends React.Component {
             path={`${this.props.match.url}/list`}
             exact
             render={(routeProps) => (
-              <EmployeeList {...routeProps} data={this.props.employeeList} />
+              <EmployeeList {...routeProps} data={this.props.employeeList} deleteEmployeeRequest={this.props.actions.deleteEmployeeRequest}/>
             )}
           />
           <Route
@@ -75,7 +75,7 @@ const mapStateToProps = createStructuredSelector({
 
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ loadEmployeeListRequest }, dispatch),
+  actions: bindActionCreators({ loadEmployeeListRequest, deleteEmployeeRequest }, dispatch),
 });
 
 const withConnect = connect(

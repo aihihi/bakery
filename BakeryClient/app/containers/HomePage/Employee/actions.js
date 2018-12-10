@@ -2,6 +2,9 @@ import {
   SAVE_EMPLOYEE_REQUEST,
   SAVE_EMPLOYEE_SUCCESS,
   SAVE_EMPLOYEE_ERROR,
+  DELETE_EMPLOYEE_REQUEST,
+  DELETE_EMPLOYEE_SUCCESS,
+  DELETE_EMPLOYEE_ERROR,
   LOAD_EMPLOYEE_LIST_REQUEST,
   LOAD_EMPLOYEE_LIST_SUCCESS,
   LOAD_EMPLOYEE_LIST_ERROR,
@@ -33,6 +36,24 @@ export function saveEmployeeSuccess(payload) {
 export function saveEmployeeFailure(payload) {
   return {
     type: SAVE_EMPLOYEE_ERROR,
+    payload,
+  };
+}
+export function deleteEmployeeRequest(payload) {
+  return {
+    type: DELETE_EMPLOYEE_REQUEST,
+    payload,
+  };
+}
+export function deleteEmployeeSuccess(payload) {
+  return {
+    type: DELETE_EMPLOYEE_SUCCESS,
+    payload,
+  };
+}
+export function deleteEmployeeFailure(payload) {
+  return {
+    type: DELETE_EMPLOYEE_ERROR,
     payload,
   };
 }

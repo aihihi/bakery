@@ -14,6 +14,8 @@ import { fromJS } from 'immutable';
 import {
   SAVE_EMPLOYEE_SUCCESS,
   SAVE_EMPLOYEE_ERROR,
+  DELETE_EMPLOYEE_SUCCESS,
+  DELETE_EMPLOYEE_ERROR,
   LOAD_EMPLOYEE_LIST_SUCCESS,
   LOAD_EMPLOYEE_LIST_ERROR,
   LOAD_EMPLOYEE_PER_ID_REQUEST,
@@ -30,9 +32,6 @@ export const initialState = fromJS({
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
-    // case CHANGE_USERNAME:
-    //   // Delete prefixed '@' from the github username
-    //   return state.set('username', action.name.replace(/@/gi, ''));
     case SAVE_EMPLOYEE_SUCCESS:
       return state.set('currentEmployee', action.payload);
     case LOAD_EMPLOYEE_LIST_SUCCESS:
