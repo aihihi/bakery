@@ -14,7 +14,7 @@ import { Switch, Route, withRouter, Link } from 'react-router-dom';
 import {
 } from 'containers/App/selectors';
 // import messages from '../messages';
-import { makeSelectEmployeeList } from './selectors';
+import { makeSelectEmployeeList, makeSelectCurrentEmployee } from './selectors';
 import { loadEmployeeListRequest, deleteEmployeeRequest } from './actions';
 import EmployeeInput from './EmployeeInput';
 import EmployeeList from './EmployeeList';
@@ -24,6 +24,13 @@ export class Employee extends React.Component {
 
   componentDidMount() {
     this.props.actions.loadEmployeeListRequest();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { currentEmployee, actions } = this.props;
+    if (prevProps.currentEmployee !== currentEmployee) {
+      actions.loadEmployeeListRequest();
+    }
   }
 
   render() {
@@ -51,7 +58,7 @@ export class Employee extends React.Component {
             component={EmployeeInput}
 
           />
-          { this.props.employeeList && this.props.employeeList.length && 
+          { this.props.employeeList && this.props.employeeList.length &&
           <Route
             path={`${this.props.match.url}/:id`}
             exact
@@ -72,7 +79,7 @@ Employee.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   employeeList: makeSelectEmployeeList(),
-
+  currentEmployee: makeSelectCurrentEmployee(),
 });
 
 

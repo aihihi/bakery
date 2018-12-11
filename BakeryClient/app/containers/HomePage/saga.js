@@ -5,19 +5,23 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import requestSaga from 'utils/request';
-import { SAVE_EMPLOYEE_REQUEST, LOAD_EMPLOYEE_LIST_REQUEST,
+import {
+  SAVE_EMPLOYEE_REQUEST,
+  UPDATE_EMPLOYEE_REQUEST,
+  LOAD_EMPLOYEE_LIST_REQUEST,
   LOAD_EMPLOYEE_PER_ID_REQUEST,
   DELETE_EMPLOYEE_REQUEST,
 } from './Employee/constants';
 import {
   saveEmployeeSuccess,
   saveEmployeeFailure,
+  updateEmployeeSuccess,
+  updateEmployeeFailure,
   deleteEmployeeSuccess,
   deleteEmployeeFailure,
   loadEmployeeListSuccess,
   loadEmployeeListFailure,
   loadEmployeePerIdSuccess,
-  loadEmployeePerIdFailure,
 } from './Employee/actions';
 
 
@@ -56,6 +60,32 @@ export function* deleteEmployeeSaga(action) {
     yield put(deleteEmployeeFailure(err));
   }
 }
+
+export function* updateEmployeeSaga(action) {
+  const requestURL = `employees/${action.payload.id}`;
+  const { id, fullName, mobilePhone, address, birthday, joinedDate, note } = action.payload;
+
+  const config = {
+    method: 'PUT',
+    data: {
+      id,
+      fullName,
+      mobilePhone,
+      address,
+      birthday,
+      joinedDate,
+      note,
+    },
+  };
+  try {
+    // Call our request helper (see 'utils/request')
+    const response = yield call(requestSaga, requestURL, config);
+    yield put(updateEmployeeSuccess(response));
+  } catch (err) {
+    yield put(updateEmployeeFailure(err));
+  }
+}
+
 export function* saveEmployeeSaga(action) {
   // Select username from store
   const requestURL = 'employees';
@@ -89,6 +119,7 @@ export default function* employeeData() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield takeLatest(SAVE_EMPLOYEE_REQUEST, saveEmployeeSaga);
+  yield takeLatest(UPDATE_EMPLOYEE_REQUEST, updateEmployeeSaga);
   yield takeLatest(DELETE_EMPLOYEE_REQUEST, deleteEmployeeSaga);
   yield takeLatest(LOAD_EMPLOYEE_LIST_REQUEST, loadEmployeeListSaga);
   yield takeLatest(LOAD_EMPLOYEE_PER_ID_REQUEST, loadEmployeePerIdSaga);

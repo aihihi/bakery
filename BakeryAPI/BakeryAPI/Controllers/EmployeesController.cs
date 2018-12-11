@@ -79,7 +79,10 @@ namespace BakeryAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(employees);
+
+
+            //return NoContent();
         }
 
         // POST: api/Employees

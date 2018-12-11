@@ -13,4 +13,16 @@ const makeSelectEmployeeList = () =>
 const makeSelectEmployeePerId = () =>
   createSelector(selectHome, homeState => homeState.get('currentEmployee'));
 
-export { selectHome, makeSelectEmployeeList, makeSelectEmployeePerId };
+const makeSelectCurrentEmployee = () =>
+  createSelector(selectHome, homeState => homeState.get('currentEmployee'));
+
+const makeSelectRequestError = () =>
+  createSelector(selectHome, homeState => homeState.get('requestError'));
+
+export {
+  selectHome,
+  makeSelectEmployeeList,
+  makeSelectEmployeePerId,
+  makeSelectCurrentEmployee,
+  makeSelectRequestError,
+};

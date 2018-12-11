@@ -11,6 +11,9 @@ import {
   LOAD_EMPLOYEE_PER_ID_REQUEST,
   LOAD_EMPLOYEE_PER_ID_SUCCESS,
   LOAD_EMPLOYEE_PER_ID_ERROR,
+  UPDATE_EMPLOYEE_REQUEST,
+  UPDATE_EMPLOYEE_SUCCESS,
+  UPDATE_EMPLOYEE_ERROR,
 } from './constants';
 
 /**
@@ -54,6 +57,24 @@ export function deleteEmployeeSuccess(payload) {
 export function deleteEmployeeFailure(payload) {
   return {
     type: DELETE_EMPLOYEE_ERROR,
+    payload,
+  };
+}
+export function updateEmployeeRequest(payload) {
+  return {
+    type: UPDATE_EMPLOYEE_REQUEST,
+    payload,
+  };
+}
+export function updateEmployeeSuccess(payload) {
+  return {
+    type: UPDATE_EMPLOYEE_SUCCESS,
+    payload,
+  };
+}
+export function updateEmployeeFailure(payload) {
+  return {
+    type: UPDATE_EMPLOYEE_ERROR,
     payload,
   };
 }
