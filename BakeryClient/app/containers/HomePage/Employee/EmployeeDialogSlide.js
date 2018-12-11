@@ -16,21 +16,20 @@ class AlertDialogSlide extends React.Component {
     open: false,
   };
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+  // handleClickOpen = () => {
+  //   this.setState({ open: true });
+  // };
+  //
+  // handleClose = () => {
+  //   this.setState({ open: false });
+  // };
 
   render() {
-    const { message } = this.props;
+    const { message, handleClickOpen, handleClose, open } = this.props;
     return (
       <div>
-        {/*<Button onClick={this.handleClickOpen}>Slide in alert dialog</Button>*/}
         <Dialog
-          open={this.state.open}
+          open={open}
           TransitionComponent={Transition}
           keepMounted
           onClose={this.handleClose}
@@ -38,7 +37,7 @@ class AlertDialogSlide extends React.Component {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle id="alert-dialog-slide-title">
-            {"Use Google's location service?"}
+            {"INSERT/UPDATE AN EMPLOYEE RECORD"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
@@ -46,7 +45,7 @@ class AlertDialogSlide extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={handleClose} color="primary">
               OK
             </Button>
           </DialogActions>

@@ -19,10 +19,14 @@ const makeSelectCurrentEmployee = () =>
 const makeSelectRequestError = () =>
   createSelector(selectHome, homeState => homeState.get('requestError'));
 
+const makeSelectRequestSuccess = () =>
+  createSelector(selectHome, homeState => homeState.get('requestSuccess'));
+
 export {
   selectHome,
   makeSelectEmployeeList,
   makeSelectEmployeePerId,
   makeSelectCurrentEmployee,
   makeSelectRequestError,
+  makeSelectRequestSuccess,
 };

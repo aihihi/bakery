@@ -5,22 +5,23 @@ import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import connect from 'react-redux/es/connect/connect';
 import { ADD_NEW, UPDATE_EDIT } from '../../../../utils/constants';
-import { makeSelectEmployeePerId, makeSelectEmployeeList, makeSelectRequestError } from '../selectors';
-import { loadEmployeePerIdRequest, saveEmployeeRequest, updateEmployeeRequest } from '../actions';
+import { makeSelectEmployeePerId, makeSelectEmployeeList, makeSelectRequestError, makeSelectRequestSuccess } from '../selectors';
+import { loadEmployeePerIdRequest, saveEmployeeRequest, updateEmployeeRequest, resetEmployeeSuccess, } from '../actions';
 import EmployeeInputForm from './EmployeeInputForm';
 import AlertDialogSlide from '../EmployeeDialogSlide';
 import { EditTwoTone } from '@material-ui/icons';
 
 class EmployeeInput extends React.Component {
-  // static getDerivedStateFromProps(props, state) {
-  //   if (state.mode === UPDATE_EDIT && props.currentEmployee && props.currentEmployee.id !== state.values.id) {
-  //   // if (state.mode === UPDATE_EDIT && props.currentEmployee) {
-  //     // return { values: props.currentEmployee };
-  //     return { values: props.currentEmployee };
-  //   }
-  //   return { values: {}};
-  // }
-
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { requestError, requestSuccess } = nextProps;
+    if (requestError) {
+      return { requestError, openDialog: true };
+    }
+    if (requestSuccess) {
+      return { openDialog: true };
+    }
+    return null;
+  }
   constructor(props) {
     super(props);
     const { employeeList } = this.props;
@@ -52,54 +53,7 @@ class EmployeeInput extends React.Component {
       };
     }
 
-
   }
-
-  // componentDidMount() {
-  //   const { id } = this.props.match.params;
-  //   if (id) {
-  //     this.props.actions.loadEmployeePerIdRequest(id);
-  //
-  //     this.setState({
-  //       mode: UPDATE_EDIT,
-  //
-  //     });
-  //
-  //   }
-  // }
-
-  // componentWillReceiveProps(nextProps, nextContext) {
-  //   const { currentEmployee } = this.props;
-  //   if (nextProps.currentEmployee && currentEmployee !== nextProps.currentEmployee) {
-  //     this.setState({
-  //       values: {
-  //         fullName: 'ahihi',
-  //         mobilePhone: '',
-  //         address: '',
-  //         birthday: '',
-  //         joinedDate: '',
-  //         note: '',
-  //       },
-  //       // values: {
-  //       //   fullName: 'dom',
-  //       // },
-  //       // values: nextProps.currentEmployee,
-  //     });
-  //     this.forceUpdate();
-  //   }
-  // }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   // const { id } = this.state.values;
-  //
-  //   const { currentEmployee } = this.props;
-  //   const { mode } = this.state;
-  //   if ( mode === UPDATE_EDIT && currentEmployee && prevProps.currentEmployee && currentEmployee.id !== prevProps.currentEmployee.id) {
-  //     this.setState({
-  //       values: currentEmployee,
-  //     });
-  //   }
-  // }
 
   handleFormChange = (values) => this.setState({ values })
 
@@ -115,36 +69,18 @@ class EmployeeInput extends React.Component {
   };
 
   handleClose = () => {
+    this.props.actions.resetEmployeeSuccess();
     this.setState({ openDialog: false });
   };
+
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   const { requestError } = this.props;
+  //   if (prevProps.requestError !== requestError && requestError )
+  // }
+
   render() {
-    const { mode, values } = this.state;
+    const { mode, values, openDialog } = this.state;
     const { requestError } = this.props;
-    // const renderingForm =
-    //   <EmployeeInputForm
-    //     initialValues={values}
-    //     onSubmit={this.handleFormSubmit}
-    //     onChange={this.handleFormChange}
-    //     disabled={false}
-    //     busy={false}
-    //   />;
-    // if (mode === UPDATE_EDIT) {
-    //   return (this.props.currentEmployee && <EmployeeInputForm
-    //     initialValues={this.props.currentEmployee}
-    //     onSubmit={this.handleFormSubmit}
-    //     onChange={this.handleFormChange}
-    //     disabled={false}
-    //     busy={false}
-    //   />);
-    // }
-    // if (mode === UPDATE_EDIT) {
-    //   return (
-    //     <div>
-    //       { renderingForm }
-    //
-    //     </div>
-    //   );
-    // }
 
     return (
       <div>
@@ -155,7 +91,8 @@ class EmployeeInput extends React.Component {
           disabled={false}
           busy={false}
         />
-        { requestError && <AlertDialogSlide message={requestError} open={this.state.openDialog} /> }
+        <AlertDialogSlide message={requestError} open={this.state.openDialog && requestError} handleClose={this.handleClose} />
+        { openDialog && <AlertDialogSlide message={'Successfully Update Database'} open handleClose={this.handleClose}/> }
       </div>
     );
 
@@ -167,6 +104,7 @@ const mapStateToProps = createStructuredSelector({
   currentEmployee: makeSelectEmployeePerId(),
   employeeList: makeSelectEmployeeList(),
   requestError: makeSelectRequestError(),
+  requestSuccess: makeSelectRequestSuccess(),
 });
 
 
@@ -174,7 +112,8 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     saveEmployeeRequest,
     updateEmployeeRequest,
-    loadEmployeePerIdRequest }, dispatch),
+    loadEmployeePerIdRequest,
+    resetEmployeeSuccess}, dispatch),
 });
 
 const withConnect = connect(

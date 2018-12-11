@@ -22,6 +22,7 @@ import {
   loadEmployeeListSuccess,
   loadEmployeeListFailure,
   loadEmployeePerIdSuccess,
+  loadEmployeePerIdFailure,
 } from './Employee/actions';
 
 
