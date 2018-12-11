@@ -5,7 +5,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import { withFormValidation, hasErrors} from 'components/ValidatedFormHOC';
 
@@ -21,7 +21,7 @@ const styles = (theme) => ({
   },
 });
 
-const EmployeeInputForm = ({ intl, classes, onSubmit, onChange, values, disabled, busy, errors, onBlur, onSubmitFocus }) => {
+const EmployeeInputForm = ({ intl, classes, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus }) => {
   const handleChange = (name) => (event) => onChange(name, event.target.value);
   const handleBlur = (name) => () => onBlur(name);
 
@@ -47,6 +47,7 @@ const EmployeeInputForm = ({ intl, classes, onSubmit, onChange, values, disabled
 
       <TextField
         required
+        type="number"
         error={hasErrors(errors.mobilePhone)}
         helperText={hasErrors(errors.mobilePhone) ? errors.mobilePhone : null}
         id="mobilePhone"
@@ -62,12 +63,70 @@ const EmployeeInputForm = ({ intl, classes, onSubmit, onChange, values, disabled
         fullWidth
         disabled={disabled || busy}
       />
+      <TextField
+        id="Address"
+        label="Address"
+        value={values.address}
+        InputLabelProps={{
+          shrink: true,
+        }}
+        onChange={handleChange('address')}
+        onBlur={handleBlur('address')}
+        placeholder="Please enter Address"
+        margin="normal"
+        fullWidth
+        disabled={disabled || busy}
+      />
+      <TextField
+        id="birthday"
+        label="Birthday"
+        type="date"
+        value={values.birthday}
+        defaultValue={values.birthday}
+        InputLabelProps={{
+          shrink: true,
+        }}
+        onChange={handleChange('birthday')}
+        placeholder="Please enter Birthday"
+        margin="normal"
+        fullWidth
+        disabled={disabled || busy}
+      />
+      <TextField
+        id="joinedDate"
+        label="Joined Date"
+        type="date"
+        value={values.joinedDate}
+        InputLabelProps={{
+          shrink: true,
+        }}
+        onChange={handleChange('joinedDate')}
+        onBlur={handleBlur('joinedDate')}
+        placeholder="Please enter Joined Date"
+        margin="normal"
+        fullWidth
+        disabled={disabled || busy}
+      />
+      <TextField
+        id="note"
+        label="Note"
+        value={values.note}
+        InputLabelProps={{
+          shrink: true,
+        }}
+        onChange={handleChange('note')}
+        onBlur={handleBlur('note')}
+        placeholder="Please enter Note"
+        margin="normal"
+        fullWidth
+        disabled={disabled || busy}
+      />
 
       {/* TODO: @rob, Add button spinner on busy prop */}
       <Button
         type="submit"
         variant="contained"
-        color="secondary"
+        color="primary"
         fullWidth
         className={classes.button}
         onClick={onSubmit}
@@ -76,6 +135,19 @@ const EmployeeInputForm = ({ intl, classes, onSubmit, onChange, values, disabled
       >
         Save
       </Button>
+      <Button
+        type="submit"
+        variant="contained"
+        color="secondary"
+        fullWidth
+        className={classes.button}
+        onClick={onCancel}
+      >
+        Cancel
+      </Button>
+
+
+
     </form>
   );
 };
@@ -91,6 +163,7 @@ EmployeeInputForm.propTypes = {
   errors: PropTypes.object,
   onBlur: PropTypes.func,
   onSubmitFocus: PropTypes.func,
+  onCancel: PropTypes.func,
 };
 
 EmployeeInputForm.defaultProps = {

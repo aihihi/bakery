@@ -63,6 +63,7 @@ class EmployeeInput extends React.Component {
       actions.updateEmployeeRequest(this.state.values) :
       actions.saveEmployeeRequest(this.state.values);
   }
+  handleGoToList = () => this.props.history.push('/employee/list')
 
   handleClickOpen = () => {
     this.setState({ openDialog: true });
@@ -88,6 +89,7 @@ class EmployeeInput extends React.Component {
           initialValues={values}
           onSubmit={this.handleFormSubmit}
           onChange={this.handleFormChange}
+          onCancel={this.handleGoToList}
           disabled={false}
           busy={false}
         />
