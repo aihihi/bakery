@@ -14,8 +14,8 @@ import { Switch, Route, withRouter, Link } from 'react-router-dom';
 import {
 } from 'containers/App/selectors';
 // import messages from '../messages';
-import { makeSelectEmployeeList, makeSelectCurrentEmployee } from './selectors';
-import { loadEmployeeListRequest, deleteEmployeeRequest } from './actions';
+import { makeSelectEmployeeList, makeSelectCurrentEmployee, makeSelectRequestError, makeSelectRequestSuccess } from './selectors';
+import { loadEmployeeListRequest, deleteEmployeeRequest, setCurrentEmployee, resetEmployeeSuccess } from './actions';
 import EmployeeInput from './EmployeeInput';
 import EmployeeList from './EmployeeList';
 
@@ -49,7 +49,15 @@ export class Employee extends React.Component {
             path={`${this.props.match.url}/list`}
             exact
             render={(routeProps) => (
-              <EmployeeList {...routeProps} data={this.props.employeeList} deleteEmployeeRequest={this.props.actions.deleteEmployeeRequest}/>
+              <EmployeeList
+                {...routeProps}
+                data={this.props.employeeList}
+                deleteEmployeeRequest={this.props.actions.deleteEmployeeRequest}
+                setCurrentEmployee={this.props.actions.setCurrentEmployee}
+                requestSuccess={this.props.requestSuccess}
+                requestError={this.props.requestError}
+                resetEmployeeSuccess={this.props.actions.resetEmployeeSuccess}
+              />
             )}
           />
           <Route
@@ -59,11 +67,11 @@ export class Employee extends React.Component {
 
           />
           { this.props.employeeList && this.props.employeeList.length &&
-          <Route
-            path={`${this.props.match.url}/:id`}
-            exact
-            render={props => <EmployeeInput {...props} />}
-          /> }
+            <Route
+              path={`${this.props.match.url}/:id`}
+              exact
+              render={props => <EmployeeInput {...props} />}
+            /> }
 
         </Switch>
       </div>
@@ -80,11 +88,19 @@ Employee.propTypes = {
 const mapStateToProps = createStructuredSelector({
   employeeList: makeSelectEmployeeList(),
   currentEmployee: makeSelectCurrentEmployee(),
+  requestSuccess: makeSelectRequestSuccess(),
+  requestError: makeSelectRequestError(),
 });
 
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ loadEmployeeListRequest, deleteEmployeeRequest }, dispatch),
+const mapDispatchToProps = (dispatch) => ({actions:
+    bindActionCreators({
+      loadEmployeeListRequest,
+      deleteEmployeeRequest,
+      setCurrentEmployee,
+      resetEmployeeSuccess,
+    },
+      dispatch),
 });
 
 const withConnect = connect(

@@ -9,8 +9,8 @@ import { makeSelectEmployeePerId, makeSelectEmployeeList, makeSelectRequestError
 import { loadEmployeePerIdRequest, saveEmployeeRequest, updateEmployeeRequest, resetEmployeeSuccess, } from '../actions';
 import EmployeeInputForm from './EmployeeInputForm';
 import AlertDialogSlide from '../EmployeeDialogSlide';
-import { EditTwoTone } from '@material-ui/icons';
-
+// import { EditTwoTone } from '@material-ui/icons';
+import moment from 'moment';
 class EmployeeInput extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { requestError, requestSuccess } = nextProps;
@@ -31,10 +31,12 @@ class EmployeeInput extends React.Component {
       const currentEmployee = employeeList.find(employee => (
         employee.id === id
       ));
+      const { birthday, joinedDate } = currentEmployee;
+      currentEmployee.birthday = birthday ? moment(birthday).format('YYYY-MM-DD') : '';
+      currentEmployee.joinedDate = joinedDate ? moment(joinedDate).format('YYYY-MM-DD') : '';
       this.state = {
         openDialog: false,
         mode: UPDATE_EDIT,
-        // mode: ADD_NEW,
         values: currentEmployee,
       };
     } else {
@@ -55,7 +57,7 @@ class EmployeeInput extends React.Component {
 
   }
 
-  handleFormChange = (values) => this.setState({ values })
+  handleFormChange = (values) => this.setState({ values });
 
   handleFormSubmit = () => {
     const { actions } = this.props;
@@ -63,6 +65,7 @@ class EmployeeInput extends React.Component {
       actions.updateEmployeeRequest(this.state.values) :
       actions.saveEmployeeRequest(this.state.values);
   }
+
   handleGoToList = () => this.props.history.push('/employee/list')
 
   handleClickOpen = () => {
@@ -73,11 +76,6 @@ class EmployeeInput extends React.Component {
     this.props.actions.resetEmployeeSuccess();
     this.setState({ openDialog: false });
   };
-
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   const { requestError } = this.props;
-  //   if (prevProps.requestError !== requestError && requestError )
-  // }
 
   render() {
     const { mode, values, openDialog } = this.state;

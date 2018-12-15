@@ -12,9 +12,9 @@ function Transition(props) {
 }
 
 class AlertDialogSlide extends React.Component {
-  state = {
-    open: false,
-  };
+  // state = {
+  //   open: false,
+  // };
 
   // handleClickOpen = () => {
   //   this.setState({ open: true });

@@ -65,7 +65,7 @@ class Header extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" className={classes.grow}>
-              Photos
+              Bakery Management
             </Typography>
             {auth && (
               <div>

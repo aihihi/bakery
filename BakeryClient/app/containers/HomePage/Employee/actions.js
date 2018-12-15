@@ -15,6 +15,7 @@ import {
   UPDATE_EMPLOYEE_SUCCESS,
   UPDATE_EMPLOYEE_ERROR,
   RESET_EMPLOYEE_SUCCESS,
+  SET_CURRENT_EMPLOYEE,
 } from './constants';
 
 /**
@@ -119,5 +120,12 @@ export function loadEmployeePerIdFailure(payload) {
 export function resetEmployeeSuccess() {
   return {
     type: RESET_EMPLOYEE_SUCCESS,
+  };
+}
+
+export function setCurrentEmployee(payload) {
+  return {
+    type: SET_CURRENT_EMPLOYEE,
+    payload,
   };
 }

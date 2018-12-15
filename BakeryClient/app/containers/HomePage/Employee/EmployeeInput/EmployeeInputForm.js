@@ -21,6 +21,8 @@ const styles = (theme) => ({
   },
 });
 
+const nowDate = () => new Date();
+
 const EmployeeInputForm = ({ intl, classes, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus }) => {
   const handleChange = (name) => (event) => onChange(name, event.target.value);
   const handleBlur = (name) => () => onBlur(name);
@@ -77,12 +79,13 @@ const EmployeeInputForm = ({ intl, classes, onSubmit, onChange, onCancel, values
         fullWidth
         disabled={disabled || busy}
       />
+
       <TextField
         id="birthday"
         label="Birthday"
         type="date"
         value={values.birthday}
-        defaultValue={values.birthday}
+        // defaultValue={''}
         InputLabelProps={{
           shrink: true,
         }}
@@ -122,7 +125,6 @@ const EmployeeInputForm = ({ intl, classes, onSubmit, onChange, onCancel, values
         disabled={disabled || busy}
       />
 
-      {/* TODO: @rob, Add button spinner on busy prop */}
       <Button
         type="submit"
         variant="contained"
@@ -145,9 +147,6 @@ const EmployeeInputForm = ({ intl, classes, onSubmit, onChange, onCancel, values
       >
         Cancel
       </Button>
-
-
-
     </form>
   );
 };
