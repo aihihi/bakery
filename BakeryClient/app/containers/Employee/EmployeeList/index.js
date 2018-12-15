@@ -7,7 +7,7 @@ import TableBody from '@material-ui/core/TableBody/TableBody';
 import TableRow from '@material-ui/core/TableRow/TableRow';
 import TableCell from '@material-ui/core/TableCell/TableCell';
 import Checkbox from '@material-ui/core/Checkbox/Checkbox';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import TablePagination from '@material-ui/core/TablePagination/TablePagination';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
@@ -17,11 +17,8 @@ import Typography from '@material-ui/core/Typography/Typography';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Button from '@material-ui/core/Button';
-
 import EditIcon from '@material-ui/icons/Edit';
 import AddCircle from '@material-ui/icons/AddCircle';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import AlertDialogSlide from '../EmployeeDialogSlide';
 
 import EnhancedTableHead from './EnhancedTableHead';
@@ -81,12 +78,6 @@ const toolbarStyles = theme => ({
   title: {
     flex: '0 0 auto',
   },
-  // noUnderline: {
-  //   textDecoration: 'none',
-  // },
-  // iconButton: {
-  //   marginLeft: 10,
-  // },
 });
 
 let EnhancedTableToolbar = props => {

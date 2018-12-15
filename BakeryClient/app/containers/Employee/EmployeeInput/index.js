@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import connect from 'react-redux/es/connect/connect';
-import { ADD_NEW, UPDATE_EDIT } from '../../../../utils/constants';
+import { ADD_NEW, UPDATE_EDIT } from 'utils/constants';
 import { makeSelectEmployeePerId, makeSelectEmployeeList, makeSelectRequestError, makeSelectRequestSuccess } from '../selectors';
 import { loadEmployeePerIdRequest, saveEmployeeRequest, updateEmployeeRequest, resetEmployeeSuccess, } from '../actions';
 import EmployeeInputForm from './EmployeeInputForm';

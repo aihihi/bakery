@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Switch, Route, withRouter, Link } from 'react-router-dom';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
 
 import {
 } from 'containers/App/selectors';
@@ -18,6 +20,8 @@ import { makeSelectEmployeeList, makeSelectCurrentEmployee, makeSelectRequestErr
 import { loadEmployeeListRequest, deleteEmployeeRequest, setCurrentEmployee, resetEmployeeSuccess } from './actions';
 import EmployeeInput from './EmployeeInput';
 import EmployeeList from './EmployeeList';
+import reducer from './reducer';
+import saga from './saga';
 
 /* eslint-disable react/prefer-stateless-function */
 export class Employee extends React.Component {
@@ -108,7 +112,12 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
+const withReducer = injectReducer({ key: 'employee', reducer });
+const withSaga = injectSaga({ key: 'employee', saga });
+
 export default compose(
+  withReducer,
+  withSaga,
   withConnect,
   withRouter,
 )(Employee);

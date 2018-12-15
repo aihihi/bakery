@@ -11,7 +11,7 @@ import {
   LOAD_EMPLOYEE_LIST_REQUEST,
   LOAD_EMPLOYEE_PER_ID_REQUEST,
   DELETE_EMPLOYEE_REQUEST,
-} from './Employee/constants';
+} from './constants';
 import {
   saveEmployeeSuccess,
   saveEmployeeFailure,
@@ -23,7 +23,7 @@ import {
   loadEmployeeListFailure,
   loadEmployeePerIdSuccess,
   loadEmployeePerIdFailure,
-} from './Employee/actions';
+} from './actions';
 
 
 export function* loadEmployeeListSaga() {

@@ -24,11 +24,10 @@ import {
   LOAD_EMPLOYEE_PER_ID_ERROR,
   RESET_EMPLOYEE_SUCCESS,
   SET_CURRENT_EMPLOYEE,
-} from './Employee/constants';
+} from './constants';
 
 // The initial state of the App
 export const initialState = fromJS({
-  // username: '',
   currentEmployee: null,
   employeeList: [],
   requestError: null,
