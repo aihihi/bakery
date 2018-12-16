@@ -12,6 +12,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import SwipeableDrawer from 'components/SwipeableDrawer';
 
 const styles = {
   root: {
@@ -30,6 +31,13 @@ class Header extends React.Component {
   state = {
     auth: true,
     anchorEl: null,
+    top: false,
+  };
+
+  toggleDrawer = (side, open) => () => {
+    this.setState({
+      [side]: open,
+    });
   };
 
   handleChange = event => {
@@ -61,9 +69,18 @@ class Header extends React.Component {
         </FormGroup>
         <AppBar position="static">
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+            <IconButton
+              className={classes.menuButton}
+              color="inherit" aria-label="Menu"
+              onClick={this.toggleDrawer('top', true)}
+            >
               <MenuIcon />
             </IconButton>
+            <SwipeableDrawer
+              top={this.state.top}
+              toggleDrawer={this.toggleDrawer}
+            />
+
             <Typography variant="h6" color="inherit" className={classes.grow}>
               Bakery Management
             </Typography>
