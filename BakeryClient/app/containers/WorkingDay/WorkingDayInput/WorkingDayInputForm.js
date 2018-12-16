@@ -19,8 +19,7 @@ const styles = (theme) => ({
   },
   button: {
     padding: '1em 0',
-    margin: '1em 1em .75em 0',
-    width: 150,
+    margin: '1em 0 .75em 0',
   },
   headerText: {
     marginBottom: theme.spacing.unit,
@@ -29,61 +28,13 @@ const styles = (theme) => ({
 
 const nowDate = () => new Date();
 
-const StoreInputForm = ({ intl, classes, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus }) => {
+const WorkingDayInputForm = ({ intl, classes, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus }) => {
   const handleChange = (name) => (event) => onChange(name, event.target.value);
   const handleBlur = (name) => () => onBlur(name);
 
   return (
     <form noValidate autoComplete="off" onSubmit={onSubmit}>
-      <TextField
-        required
-        error={hasErrors(errors.name)}
-        helperText={hasErrors(errors.name) ? errors.name : null}
-        id="name"
-        label="Store Name"
-        value={values.name}
-        onChange={handleChange('name')}
-        onBlur={handleBlur('name')}
-        margin="normal"
-        placeholder="Please enter Name"
-        InputLabelProps={{
-          shrink: true,
-        }}
-        fullWidth
-        disabled={disabled || busy}
-      />
-
-      <TextField
-        id="Address"
-        label="Address"
-        value={values.address}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        onChange={handleChange('address')}
-        onBlur={handleBlur('address')}
-        placeholder="Please enter Address"
-        margin="normal"
-        fullWidth
-        disabled={disabled || busy}
-      />
-
-      <TextField
-        id="firstOpenedDate"
-        label="First Opened Date"
-        type="date"
-        value={values.firstOpenedDate}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        onChange={handleChange('firstOpenedDate')}
-        onBlur={handleBlur('firstOpenedDate')}
-        placeholder="Please enter First Opened Date"
-        margin="normal"
-        fullWidth
-        disabled={disabled || busy}
-      />
-      <TextField
+           <TextField
         id="note"
         label="Note"
         value={values.note}
@@ -126,7 +77,7 @@ const StoreInputForm = ({ intl, classes, onSubmit, onChange, onCancel, values, d
   );
 };
 
-StoreInputForm.propTypes = {
+WorkingDayInputForm.propTypes = {
   intl: intlShape.isRequired,
   classes: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -140,7 +91,7 @@ StoreInputForm.propTypes = {
   onCancel: PropTypes.func,
 };
 
-StoreInputForm.defaultProps = {
+WorkingDayInputForm.defaultProps = {
   busy: false,
   disabled: false,
   onBlur: () => null,
@@ -152,7 +103,7 @@ export default compose(
   withRouter,
   withFormValidation(isLoginFieldValid, ['name']),
   withStyles(styles),
-)(StoreInputForm);
+)(WorkingDayInputForm);
 
 // TODO: Use i18n strings here.
 function isLoginFieldValid(name, values) {

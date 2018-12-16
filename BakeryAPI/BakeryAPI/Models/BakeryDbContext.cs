@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using BakeryAPI.Models;
 
 namespace BakeryAPI.Models
 {
@@ -86,6 +87,30 @@ namespace BakeryAPI.Models
 
                 entity.Property(e => e.Note).HasColumnName("note");
             });
+
+            modelBuilder.Entity<WorkingDay>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.EmployeeId).HasColumnName("employeeId");
+
+                entity.Property(e => e.EndTime)
+                    .HasColumnName("endTime")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.StartTime)
+                    .HasColumnName("startTime")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.StoreId).HasColumnName("storeId");
+
+                entity.Property(e => e.Note).HasColumnName("note");
+
+            });
         }
+
+        public DbSet<BakeryAPI.Models.WorkingDay> WorkingDay { get; set; }
     }
 }

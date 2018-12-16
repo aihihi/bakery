@@ -13,7 +13,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import Employee from 'containers/Employee/Loadable';
 import Store from 'containers/Store/Loadable';
-import FeaturePage from 'containers/FeaturePage/Loadable';
+import WorkingDay from 'containers/WorkingDay/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -42,6 +42,7 @@ export default function App() {
       <Switch>
         <Route path="/employee" component={Employee} />
         <Route path="/store" component={Store} />
+        <Route path="/working-day" component={WorkingDay} />
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />

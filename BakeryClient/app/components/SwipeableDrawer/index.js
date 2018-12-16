@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
 import List from '@material-ui/core/List';
@@ -10,9 +9,9 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import Face from '@material-ui/icons/Face';
 import Restaurant from '@material-ui/icons/Restaurant';
+import DirectionRun from '@material-ui/icons/DirectionsRun';
 
 const styles = {
   list: {
@@ -26,7 +25,7 @@ const styles = {
   },
 };
 
-class SwipeableTemporaryDrawer extends React.Component {
+class SwipeableTemporaryDrawer extends React.PureComponent {
 
   render() {
     const { classes } = this.props;
@@ -41,12 +40,21 @@ class SwipeableTemporaryDrawer extends React.Component {
             </ListItem>
           </Link>
           <Link to="/store/list" className={classes.noUnderline}>
-            <ListItem button key='store'>
-              <ListItemIcon><Restaurant /></ListItemIcon>
+            <ListItem button key="store">
+              <ListItemIcon>
+                <Restaurant />
+              </ListItemIcon>
               <ListItemText primary="Store" />
             </ListItem>
           </Link>
-
+          <Link to="/working-day/list" className={classes.noUnderline}>
+            <ListItem button key="working">
+              <ListItemIcon>
+                <DirectionRun />
+              </ListItemIcon>
+              <ListItemText primary="Working Day" />
+            </ListItem>
+          </Link>
         </List>
       </div>
     );
