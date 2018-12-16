@@ -47,14 +47,6 @@ function getSorting(order, orderBy) {
   return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
 
-const rows = [
-  { id: 'fullName', numeric: false, disablePadding: true, label: 'Full Name' },
-  { id: 'mobilePhone', numeric: true, disablePadding: false, label: 'Mobile Phone' },
-  { id: 'address', numeric: false, disablePadding: false, label: 'Address' },
-  { id: 'actions', numeric: true, disablePadding: false, label: 'Actions' },
-];
-
-
 const toolbarStyles = theme => ({
   root: {
     paddingRight: theme.spacing.unit,

@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
 import Employee from 'containers/Employee/Loadable';
+import Store from 'containers/Store/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
@@ -40,7 +41,7 @@ export default function App() {
       <Header />
       <Switch>
         <Route path="/employee" component={Employee} />
-        <Route path="/features" component={FeaturePage} />
+        <Route path="/store" component={Store} />
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />

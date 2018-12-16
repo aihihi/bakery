@@ -83,6 +83,8 @@ namespace BakeryAPI.Models
                 entity.Property(e => e.StoreLeader).HasColumnName("storeLeader");
 
                 entity.Property(e => e.StoreLeader2).HasColumnName("storeLeader2");
+
+                entity.Property(e => e.Note).HasColumnName("note");
             });
         }
     }

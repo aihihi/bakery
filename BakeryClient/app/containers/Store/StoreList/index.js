@@ -1,30 +1,27 @@
 import React from 'react';
 import classNames from 'classnames';
+
+import Paper from '@material-ui/core/Paper/Paper';
+import Table from '@material-ui/core/Table/Table';
+import TableBody from '@material-ui/core/TableBody/TableBody';
+import TableRow from '@material-ui/core/TableRow/TableRow';
+import TableCell from '@material-ui/core/TableCell/TableCell';
+import Checkbox from '@material-ui/core/Checkbox/Checkbox';
+import { NavLink } from 'react-router-dom';
+import TablePagination from '@material-ui/core/TablePagination/TablePagination';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import { withStyles } from '@material-ui/core';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import Button from '@material-ui/core/es/Button/Button';
-import { Link } from 'react-router-dom';
-// let counter = 0;
-// function createData(name, calories, fat, carbs, protein) {
-//   counter += 1;
-//   return { id: counter, name, calories, fat, carbs, protein };
-// }
+import Toolbar from '@material-ui/core/Toolbar/Toolbar';
+import Typography from '@material-ui/core/Typography/Typography';
+import Tooltip from '@material-ui/core/Tooltip/Tooltip';
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import AddCircle from '@material-ui/icons/AddCircle';
+import AlertDialogSlide from 'components/DialogSlide';
+
+import EnhancedTableHead from './EnhancedTableHead';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -49,70 +46,6 @@ function stableSort(array, cmp) {
 function getSorting(order, orderBy) {
   return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
-
-const rows = [
-  { id: 'fullName', numeric: false, disablePadding: true, label: 'Full Name' },
-  { id: 'mobilePhone', numeric: true, disablePadding: false, label: 'Mobile Phone' },
-  { id: 'address', numeric: false, disablePadding: false, label: 'Address' },
-  { id: 'actions', numeric: true, disablePadding: false, label: 'Actions' },
-];
-
-class EnhancedTableHead extends React.Component {
-  createSortHandler = property => event => {
-    this.props.onRequestSort(event, property);
-  };
-
-  render() {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
-
-    return (
-      <TableHead>
-        <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={numSelected === rowCount}
-              onChange={onSelectAllClick}
-            />
-          </TableCell>
-          {rows.map(row => {
-            return (
-              <TableCell
-                key={row.id}
-                numeric={row.numeric}
-                padding={row.disablePadding ? 'none' : 'default'}
-                sortDirection={orderBy === row.id ? order : false}
-              >
-                <Tooltip
-                  title="Sort"
-                  placement={row.numeric ? 'bottom-end' : 'bottom-start'}
-                  enterDelay={300}
-                >
-                  <TableSortLabel
-                    active={orderBy === row.id}
-                    direction={order}
-                    onClick={this.createSortHandler(row.id)}
-                  >
-                    {row.label}
-                  </TableSortLabel>
-                </Tooltip>
-              </TableCell>
-            );
-          }, this)}
-        </TableRow>
-      </TableHead>
-    );
-  }
-}
-
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.string.isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
 
 const toolbarStyles = theme => ({
   root: {
@@ -155,13 +88,10 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Employee List
+            Store List
           </Typography>
         )}
-        <Link to={`/employee/add-new`}>
-          Add new
-          {/*<Button>Add new employee</Button>*/}
-        </Link>
+
       </div>
       <div className={classes.spacer} />
       <div className={classes.actions}>
@@ -172,10 +102,10 @@ let EnhancedTableToolbar = props => {
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
+          <Tooltip title="Add New">
+            <NavLink to="/store/add-new">
+              <AddCircle />
+            </NavLink>
           </Tooltip>
         )}
       </div>
@@ -186,9 +116,11 @@ let EnhancedTableToolbar = props => {
 EnhancedTableToolbar.propTypes = {
   classes: PropTypes.object.isRequired,
   numSelected: PropTypes.number.isRequired,
+  handleDelete: PropTypes.func,
 };
 
 EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
+
 
 const styles = theme => ({
   root: {
@@ -203,7 +135,7 @@ const styles = theme => ({
   },
 });
 
-class EmployeeList extends React.Component {
+class StoreList extends React.Component {
   state = {
     order: 'asc',
     orderBy: 'calories',
@@ -249,16 +181,24 @@ class EmployeeList extends React.Component {
       );
     }
 
-    this.setState({ selected: newSelected });
+    this.setState({ selected: newSelected },() => {
+      const { data, setCurrentStore } = this.props;
+      const itemList = this.state.selected;
+      const currentId =
+        itemList.length > 0 ? itemList[itemList.length - 1] : null;
+      const current = data.find(item => item.id === currentId);
+      setCurrentStore(current);
+    });
   };
 
   handleDeletePerId = () => {
     const { selected } = this.state;
-    selected.map(employeeId => {
-      this.props.deleteEmployeeRequest(employeeId);
-
+    selected.map(storeId => {
+      this.props.deleteStoreRequest(storeId);
     });
+    this.setState({ selected: [] });
   }
+
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
@@ -269,11 +209,15 @@ class EmployeeList extends React.Component {
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.props.c)
-  // }
+  handleClose = () => {
+    this.props.resetStoreSuccess();
+  };
+
   render() {
-    const { classes, data } = this.props;
+    const { classes, data, requestSuccess, requestError } = this.props;
+    if (!data) {
+      return null;
+    }
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
@@ -309,11 +253,17 @@ class EmployeeList extends React.Component {
                         <Checkbox checked={isSelected} />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                        {n.fullName}
+                        {n.name}
                       </TableCell>
-                      <TableCell numeric>{n.mobilePhone}</TableCell>
                       <TableCell>{n.address}</TableCell>
-                      <TableCell numeric><Link to={`/employee/${n.id}`}>Edit</Link></TableCell>
+                      <TableCell>{n.storeLeader}</TableCell>
+                      <TableCell numeric>
+                        <Tooltip title="Edit">
+                          <NavLink to={`/store/${n.id}`}>
+                            <EditIcon />
+                          </NavLink>
+                        </Tooltip>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -340,14 +290,17 @@ class EmployeeList extends React.Component {
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
         />
+        <AlertDialogSlide message={requestError} open={requestError} handleClose={this.handleClose} />
+        <AlertDialogSlide message='Successfully Update Database' open={requestSuccess} handleClose={this.handleClose}/>
+
       </Paper>
     );
   }
 }
 
-EmployeeList.propTypes = {
+StoreList.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array,
 };
 
-export default withStyles(styles)(EmployeeList);
+export default withStyles(styles)(StoreList);

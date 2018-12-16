@@ -11,5 +11,7 @@ namespace BakeryAPI.Models
         public string Address { get; set; }
         public Guid? StoreLeader { get; set; }
         public Guid? StoreLeader2 { get; set; }
+        public string Note { get; set; }
+
     }
 }
