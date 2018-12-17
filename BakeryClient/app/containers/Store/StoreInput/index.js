@@ -3,14 +3,32 @@ import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
+import moment from 'moment';
+
 import connect from 'react-redux/es/connect/connect';
 import { ADD_NEW, UPDATE_EDIT } from 'utils/constants';
-import { makeSelectStorePerId, makeSelectStoreList, makeSelectRequestError, makeSelectRequestSuccess } from '../selectors';
-import { loadStorePerIdRequest, saveStoreRequest, updateStoreRequest, resetStoreSuccess, } from '../actions';
+import {
+  makeSelectStorePerId,
+  makeSelectStoreList,
+  makeSelectRequestError,
+  makeSelectRequestSuccess,
+} from '../selectors';
+import {
+  makeSelectEmployeeList,
+} from '../../Employee/selectors';
+import {
+  loadStorePerIdRequest,
+  saveStoreRequest,
+  updateStoreRequest,
+  resetStoreSuccess,
+} from '../actions';
+
+import {
+  loadEmployeeListRequest,
+} from '../../Employee/actions';
+
 import StoreInputForm from './StoreInputForm';
 import AlertDialogSlide from 'components/DialogSlide';
-// import { EditTwoTone } from '@material-ui/icons';
-import moment from 'moment';
 class StoreInput extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { requestError, requestSuccess } = nextProps;
@@ -50,12 +68,21 @@ class StoreInput extends React.Component {
           firstOpenedDate: '',
           storeLeader: '',
           note: '',
+          employees: null,
         },
       };
     }
-
   }
 
+  componentDidMount() {
+    this.props.actions.loadEmployeeListRequest();
+  }
+
+  handleEmployeeChange = value => {
+    this.setState({
+      employees: value,
+    });
+  };
   handleFormChange = values => this.setState({ values });
 
   handleFormSubmit = () => {
@@ -78,12 +105,15 @@ class StoreInput extends React.Component {
 
   render() {
     const { values, openDialog } = this.state;
-    const { requestError } = this.props;
+    const { requestError, employeeList } = this.props;
 
     return (
       <div>
         <StoreInputForm
           initialValues={values}
+          employeeList={employeeList}
+          onEmployeeChange={this.handleEmployeeChange}
+          selectedEmployees={this.state.employees}
           onSubmit={this.handleFormSubmit}
           onChange={this.handleFormChange}
           onCancel={this.handleGoToList}
@@ -104,15 +134,21 @@ const mapStateToProps = createStructuredSelector({
   storeList: makeSelectStoreList(),
   requestError: makeSelectRequestError(),
   requestSuccess: makeSelectRequestSuccess(),
+  employeeList: makeSelectEmployeeList(),
 });
 
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({
-    saveStoreRequest,
-    updateStoreRequest,
-    loadStorePerIdRequest,
-    resetStoreSuccess}, dispatch),
+  actions: bindActionCreators(
+    {
+      saveStoreRequest,
+      updateStoreRequest,
+      loadStorePerIdRequest,
+      resetStoreSuccess,
+      loadEmployeeListRequest,
+    },
+    dispatch,
+  ),
 });
 
 const withConnect = connect(
@@ -124,6 +160,8 @@ StoreInput.propTypes = {
   actions: PropTypes.object,
   match: PropTypes.object,
   storeList: PropTypes.array,
+  employeeList: PropTypes.array,
+  requestError: PropTypes.object,
 };
 
 export default compose(

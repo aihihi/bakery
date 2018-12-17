@@ -1,8 +1,3 @@
-/*
- * HomePage
- *
- * This is the first thing users see of our App, at the '/' route
- */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -116,7 +111,7 @@ const withReducer = injectReducer({ key: 'employee', reducer });
 const withSaga = injectSaga({ key: 'employee', saga });
 
 export default compose(
-  withReducer,
+  // withReducer,
   withSaga,
   withConnect,
   withRouter,

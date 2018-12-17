@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withRouter, Link } from 'react-router-dom';
-
+import ReactSelect from 'components/ReactSelect';
 import { withFormValidation, hasErrors} from 'components/ValidatedFormHOC';
 
 // import messages from '../../messages';
@@ -29,7 +29,7 @@ const styles = (theme) => ({
 
 const nowDate = () => new Date();
 
-const StoreInputForm = ({ intl, classes, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus }) => {
+const StoreInputForm = ({ intl, classes, onEmployeeChange, selectedEmployees, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus, employeeList, }) => {
   const handleChange = (name) => (event) => onChange(name, event.target.value);
   const handleBlur = (name) => () => onBlur(name);
 
@@ -52,7 +52,12 @@ const StoreInputForm = ({ intl, classes, onSubmit, onChange, onCancel, values, d
         fullWidth
         disabled={disabled || busy}
       />
-
+      <ReactSelect
+        multi
+        options={employeeList}
+        handleChange={onEmployeeChange}
+        selectedEmployees={selectedEmployees}
+      />
       <TextField
         id="Address"
         label="Address"

@@ -108,7 +108,7 @@ const withReducer = injectReducer({ key: 'store', reducer });
 const withSaga = injectSaga({ key: 'store', saga });
 
 export default compose(
-  withReducer,
+  // withReducer,
   withSaga,
   withConnect,
   withRouter,

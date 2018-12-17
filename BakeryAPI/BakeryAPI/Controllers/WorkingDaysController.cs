@@ -24,6 +24,9 @@ namespace BakeryAPI.Controllers
         [HttpGet]
         public IEnumerable<WorkingDay> GetWorkingDay()
         {
+            //var res = from stores in _context.Stores
+            //          join employees in _context.Employees
+            //          on stores.Id equals employees.storeId;
             return _context.WorkingDay;
         }
 
