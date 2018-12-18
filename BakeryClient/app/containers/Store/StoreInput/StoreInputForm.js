@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withRouter, Link } from 'react-router-dom';
 import ReactSelect from 'components/ReactSelect';
+import { Creatable } from "react-select";
 import { withFormValidation, hasErrors} from 'components/ValidatedFormHOC';
 
 // import messages from '../../messages';
@@ -57,6 +58,10 @@ const StoreInputForm = ({ intl, classes, onEmployeeChange, selectedEmployees, on
         options={employeeList}
         handleChange={onEmployeeChange}
         selectedEmployees={selectedEmployees}
+        valueField="id"
+        labelField="fullName"
+        title="Employees"
+        placeHolder="Select multiple employees"
       />
       <TextField
         id="Address"

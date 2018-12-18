@@ -222,7 +222,7 @@ class IntegrationReactSelect extends React.Component {
   // };
 
   render() {
-    const { classes, theme, options, multi, handleChange, selectedEmployees } = this.props;
+    const { classes, theme, options, multi, handleChange, selectedEmployees, valueField, labelField, title, placeHolder } = this.props;
 
     const selectStyles = {
       input: base => ({
@@ -253,7 +253,7 @@ class IntegrationReactSelect extends React.Component {
               classes={classes}
               styles={selectStyles}
               textFieldProps={{
-                label: 'Employee',
+                label: title,
                 InputLabelProps: {
                   shrink: true,
                 },
@@ -262,8 +262,10 @@ class IntegrationReactSelect extends React.Component {
               components={components}
               value={selectedEmployees}
               onChange={handleChange}
-              placeholder="Select multiple employee"
+              placeholder={placeHolder}
               isMulti
+              getOptionLabel={opt => opt[labelField]}
+              getOptionValue={opt => opt[valueField]}
             /> }
         </NoSsr>
       </div>
