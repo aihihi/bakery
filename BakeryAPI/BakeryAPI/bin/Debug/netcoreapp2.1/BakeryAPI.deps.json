@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "84690aa995e9661aacd9da5a290919d2a0a096a7"
+    "signature": "0c674b679d98e271f3a1e3004dc2d276b3f9ff32"
   },
   "compilationOptions": {
     "defines": [
@@ -24,8 +24,11 @@
     ".NETCoreApp,Version=v2.1": {
       "BakeryAPI/1.0.0": {
         "dependencies": {
+          "AutoMapper": "8.0.0",
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": "6.0.0",
           "Dapper": "1.50.5",
           "Microsoft.AspNetCore.App": "2.1.1",
+          "Microsoft.AspNetCore.JsonPatch": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.1.2",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.1.4",
           "Microsoft.EntityFrameworkCore.Tools": "2.1.4",
@@ -37,6 +40,36 @@
         },
         "compile": {
           "BakeryAPI.dll": {}
+        }
+      },
+      "AutoMapper/8.0.0": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0",
+          "System.Reflection.Emit": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutoMapper.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/AutoMapper.dll": {}
+        }
+      },
+      "AutoMapper.Extensions.Microsoft.DependencyInjection/6.0.0": {
+        "dependencies": {
+          "AutoMapper": "8.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.1.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "6.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
         }
       },
       "Dapper/1.50.5": {
@@ -53,6 +86,21 @@
         },
         "compile": {
           "lib/netstandard2.0/Dapper.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.JsonPatch/2.2.0": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0",
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.JsonPatch.dll": {
+            "assemblyVersion": "2.2.0.0",
+            "fileVersion": "2.2.0.18316"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.JsonPatch.dll": {}
         }
       },
       "Microsoft.AspNetCore.Razor.Design/2.1.2": {},
@@ -91,6 +139,7 @@
           "lib/netstandard1.3/Microsoft.CodeAnalysis.Workspaces.dll": {}
         }
       },
+      "Microsoft.CSharp/4.5.0": {},
       "Microsoft.EntityFrameworkCore/2.1.4": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Abstractions": "2.1.4",
@@ -772,7 +821,7 @@
           "Microsoft.AspNetCore.Identity": "2.1.1",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "2.1.1",
           "Microsoft.AspNetCore.Identity.UI": "2.1.1",
-          "Microsoft.AspNetCore.JsonPatch": "2.1.1",
+          "Microsoft.AspNetCore.JsonPatch": "2.2.0",
           "Microsoft.AspNetCore.Localization": "2.1.1",
           "Microsoft.AspNetCore.Localization.Routing": "2.1.1",
           "Microsoft.AspNetCore.MiddlewareAnalysis": "2.1.1",
@@ -1327,16 +1376,6 @@
         },
         "compileOnly": true
       },
-      "Microsoft.AspNetCore.JsonPatch/2.1.1": {
-        "dependencies": {
-          "Microsoft.CSharp": "4.5.0",
-          "Newtonsoft.Json": "11.0.2"
-        },
-        "compile": {
-          "lib/netstandard2.0/Microsoft.AspNetCore.JsonPatch.dll": {}
-        },
-        "compileOnly": true
-      },
       "Microsoft.AspNetCore.Localization/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Http.Extensions": "2.1.1",
@@ -1457,7 +1496,7 @@
       },
       "Microsoft.AspNetCore.Mvc.Formatters.Json/2.1.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.JsonPatch": "2.1.1",
+          "Microsoft.AspNetCore.JsonPatch": "2.2.0",
           "Microsoft.AspNetCore.Mvc.Core": "2.1.1"
         },
         "compile": {
@@ -1951,9 +1990,6 @@
         "compile": {
           "lib/netstandard2.0/Microsoft.CodeAnalysis.Razor.dll": {}
         },
-        "compileOnly": true
-      },
-      "Microsoft.CSharp/4.5.0": {
         "compileOnly": true
       },
       "Microsoft.DotNet.PlatformAbstractions/2.1.0": {
@@ -3511,12 +3547,33 @@
       "serviceable": false,
       "sha512": ""
     },
+    "AutoMapper/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kcbje0Y71XkvzPn8k6OROZGOn2SKaWimon3Bu1WUTVoV5GTJVym+k+zQuKApyyFVRfk7bisumj/qUX4xIIXS+Q==",
+      "path": "automapper/8.0.0",
+      "hashPath": "automapper.8.0.0.nupkg.sha512"
+    },
+    "AutoMapper.Extensions.Microsoft.DependencyInjection/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EHxmLh6OuTuiGU3U+pHhNHwWOq1juK+Wbvr2n7Oj8/L819+DCnr7dtVtIGmBYHrle6foukEXqT5rcbRS9+CFyA==",
+      "path": "automapper.extensions.microsoft.dependencyinjection/6.0.0",
+      "hashPath": "automapper.extensions.microsoft.dependencyinjection.6.0.0.nupkg.sha512"
+    },
     "Dapper/1.50.5": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-AzAdZ9fEzUtav3Sbc5CMgz5O2oYkc5g1r+g1h/Vn+wqcInII+xtNEfyZryeW90Wq72bxjEBJhe18j+2SrGrc5A==",
       "path": "dapper/1.50.5",
       "hashPath": "dapper.1.50.5.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.JsonPatch/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yMA6uU+2lIxhDlrQugPcbWs+JJbehxmPQIQ+aM0Mm/GP9gx3Nve2o1xcByEKsVtIXgYTdugdidwUaQylVgr8Fg==",
+      "path": "microsoft.aspnetcore.jsonpatch/2.2.0",
+      "hashPath": "microsoft.aspnetcore.jsonpatch.2.2.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Razor.Design/2.1.2": {
       "type": "package",
@@ -3538,6 +3595,13 @@
       "sha512": "sha512-AqCiNju6UZy9Sd8HKzxGbpbZf+P8gWpojfvs9hIRfwstqFMZ6OJXf69EUvqJ5C4rWrcf08F7G8WII74KBEFImQ==",
       "path": "microsoft.codeanalysis.workspaces.common/2.8.0",
       "hashPath": "microsoft.codeanalysis.workspaces.common.2.8.0.nupkg.sha512"
+    },
+    "Microsoft.CSharp/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EGoBmf3Na2ppbhPePDE9PlX81r1HuOZH5twBrq7couJZiPTjUnD3648balerQJO6EJ8Sj+43+XuRwQ7r+3tE3w==",
+      "path": "microsoft.csharp/4.5.0",
+      "hashPath": "microsoft.csharp.4.5.0.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore/2.1.4": {
       "type": "package",
@@ -4106,13 +4170,6 @@
       "path": "microsoft.aspnetcore.identity.ui/2.1.1",
       "hashPath": "microsoft.aspnetcore.identity.ui.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.JsonPatch/2.1.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-T5kx4u+0CH5bD3hB+QEozR4MmLZ7CDGdm0+OD1wxyQBJKNNA6jRSJmbvsZ8nmOEwoGtAfHdXLYM0r3/Zw6J4JQ==",
-      "path": "microsoft.aspnetcore.jsonpatch/2.1.1",
-      "hashPath": "microsoft.aspnetcore.jsonpatch.2.1.1.nupkg.sha512"
-    },
     "Microsoft.AspNetCore.Localization/2.1.1": {
       "type": "package",
       "serviceable": true,
@@ -4469,13 +4526,6 @@
       "sha512": "sha512-D5zUSmQHsgKosYlWLQjs6uXn4n7llEdUwFhJz7EIwR16ge18q8p8BJ547out9ScnMDuwHA8MeCPe8WMwCaFAPw==",
       "path": "microsoft.codeanalysis.razor/2.1.1",
       "hashPath": "microsoft.codeanalysis.razor.2.1.1.nupkg.sha512"
-    },
-    "Microsoft.CSharp/4.5.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-EGoBmf3Na2ppbhPePDE9PlX81r1HuOZH5twBrq7couJZiPTjUnD3648balerQJO6EJ8Sj+43+XuRwQ7r+3tE3w==",
-      "path": "microsoft.csharp/4.5.0",
-      "hashPath": "microsoft.csharp.4.5.0.nupkg.sha512"
     },
     "Microsoft.DotNet.PlatformAbstractions/2.1.0": {
       "type": "package",

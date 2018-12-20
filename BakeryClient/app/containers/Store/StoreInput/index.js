@@ -56,6 +56,7 @@ class StoreInput extends React.Component {
         openDialog: false,
         mode: UPDATE_EDIT,
         values: currentStore,
+        selectedEmployees: null,
       };
     } else {
       this.state = {
@@ -68,8 +69,8 @@ class StoreInput extends React.Component {
           firstOpenedDate: '',
           storeLeader: '',
           note: '',
-          employees: null,
         },
+        selectedEmployees: null,
       };
     }
   }
@@ -80,7 +81,7 @@ class StoreInput extends React.Component {
 
   handleEmployeeChange = value => {
     this.setState({
-      employees: value,
+      selectedEmployees: value,
     });
   };
   handleFormChange = values => this.setState({ values });
@@ -90,7 +91,8 @@ class StoreInput extends React.Component {
     (this.state.mode === UPDATE_EDIT)
       ? actions.updateStoreRequest(this.state.values)
       : actions.saveStoreRequest(this.state.values);
-  }
+    console.log("emps: ", this.state.selectedEmployees)
+  };
 
   handleGoToList = () => this.props.history.push('/store/list');
 
@@ -113,7 +115,7 @@ class StoreInput extends React.Component {
           initialValues={values}
           employeeList={employeeList}
           onEmployeeChange={this.handleEmployeeChange}
-          selectedEmployees={this.state.employees}
+          selectedEmployees={this.state.selectedEmployees}
           onSubmit={this.handleFormSubmit}
           onChange={this.handleFormChange}
           onCancel={this.handleGoToList}

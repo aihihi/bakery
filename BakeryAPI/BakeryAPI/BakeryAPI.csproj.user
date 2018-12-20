@@ -13,5 +13,6 @@
     <WebStackScaffolding_IsViewGenerationSelected>True</WebStackScaffolding_IsViewGenerationSelected>
     <_SelectedScaffolderID>ApiControllerWithContextScaffolder</_SelectedScaffolderID>
     <_SelectedScaffolderCategoryPath>root/Common</_SelectedScaffolderCategoryPath>
+    <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
 </Project>
