@@ -46,9 +46,9 @@ namespace BakeryAPI
             var connection = @"Server=DESKTOP-HAV5U60;Database=BakeryDb;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<BakeryDbContext>(options => options.UseSqlServer(connection));
 
-            services.AddCors();
+            //services.AddCors();
             services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
-            services.AddMvc();
+            //services.AddMvc();
             
             services.AddAutoMapper();
 

@@ -12,6 +12,5 @@ namespace BakeryAPI.Models
         public Guid? StoreLeader { get; set; }
         public Guid? StoreLeader2 { get; set; }
         public string Note { get; set; }
-
     }
 }

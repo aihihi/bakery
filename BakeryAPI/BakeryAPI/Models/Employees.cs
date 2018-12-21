@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
 
 namespace BakeryAPI.Models
 {
@@ -12,7 +10,6 @@ namespace BakeryAPI.Models
         public string MobilePhone { get; set; }
         public string Address { get; set; }
         public DateTime? JoinedDate { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? Birthday { get; set; }
         public string Note { get; set; }
     }

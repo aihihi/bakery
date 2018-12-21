@@ -10,8 +10,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using BakeryAPI.Services;
-using BakeryAPI.Dtos;
+//using BakeryAPI.Dtos;
 using BakeryAPI.Entities;
+using BakeryAPI.Models;
 
 namespace BakeryAPI.Controllers
 {
@@ -36,7 +37,7 @@ namespace BakeryAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]UserDto userDto)
+        public IActionResult Authenticate([FromBody]Users userDto)
         {
             var user = _userService.Authenticate(userDto.Username, userDto.Password);
 
@@ -69,7 +70,7 @@ namespace BakeryAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody]UserDto userDto)
+        public IActionResult Register([FromBody]Users userDto)
         {
             // map dto to entity
             var user = _mapper.Map<User>(userDto);
@@ -91,7 +92,7 @@ namespace BakeryAPI.Controllers
         public IActionResult GetAll()
         {
             var users =  _userService.GetAll();
-            var userDtos = _mapper.Map<IList<UserDto>>(users);
+            var userDtos = _mapper.Map<IList<Users>>(users);
             return Ok(userDtos);
         }
 
@@ -99,12 +100,12 @@ namespace BakeryAPI.Controllers
         public IActionResult GetById(int id)
         {
             var user =  _userService.GetById(id);
-            var userDto = _mapper.Map<UserDto>(user);
+            var userDto = _mapper.Map<Users>(user);
             return Ok(userDto);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]UserDto userDto)
+        public IActionResult Update(int id, [FromBody]Users userDto)
         {
             // map dto to entity and set id
             var user = _mapper.Map<User>(userDto);

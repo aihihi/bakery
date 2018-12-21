@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using BakeryAPI.Models;
 
 namespace BakeryAPI.Models
 {
@@ -18,7 +17,10 @@ namespace BakeryAPI.Models
 
         public virtual DbSet<EmployeeOfStore> EmployeeOfStore { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
+        public virtual DbSet<PaymentRole> PaymentRole { get; set; }
         public virtual DbSet<Stores> Stores { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<WorkingDay> WorkingDay { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -54,6 +56,8 @@ namespace BakeryAPI.Models
                     .HasColumnName("birthday")
                     .HasColumnType("date");
 
+                entity.Property(e => e.FullName).HasColumnName("fullName");
+
                 entity.Property(e => e.JoinedDate)
                     .HasColumnName("joinedDate")
                     .HasColumnType("date");
@@ -62,9 +66,20 @@ namespace BakeryAPI.Models
                     .HasColumnName("mobilePhone")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.FullName).HasColumnName("fullName");
-
                 entity.Property(e => e.Note).HasColumnName("note");
+            });
+
+            modelBuilder.Entity<PaymentRole>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.Payment)
+                    .HasColumnName("payment")
+                    .HasColumnType("decimal(18, 0)");
             });
 
             modelBuilder.Entity<Stores>(entity =>
@@ -81,11 +96,32 @@ namespace BakeryAPI.Models
 
                 entity.Property(e => e.Name).HasColumnName("name");
 
+                entity.Property(e => e.Note).HasColumnName("note");
+
                 entity.Property(e => e.StoreLeader).HasColumnName("storeLeader");
 
                 entity.Property(e => e.StoreLeader2).HasColumnName("storeLeader2");
+            });
 
-                entity.Property(e => e.Note).HasColumnName("note");
+            modelBuilder.Entity<Users>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.FirstName).HasColumnName("firstName");
+
+                entity.Property(e => e.LastName)
+                    .HasColumnName("lastName")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Password)
+                    .HasColumnName("password")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Username)
+                    .HasColumnName("username")
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<WorkingDay>(entity =>
@@ -100,17 +136,14 @@ namespace BakeryAPI.Models
                     .HasColumnName("endTime")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.Note).HasColumnName("note");
+
                 entity.Property(e => e.StartTime)
                     .HasColumnName("startTime")
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.StoreId).HasColumnName("storeId");
-
-                entity.Property(e => e.Note).HasColumnName("note");
-
             });
         }
-
-        public DbSet<BakeryAPI.Models.WorkingDay> WorkingDay { get; set; }
     }
 }
