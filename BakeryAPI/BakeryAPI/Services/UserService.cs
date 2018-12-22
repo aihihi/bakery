@@ -11,10 +11,10 @@ namespace BakeryAPI.Services
     {
         Users Authenticate(string username, string password);
         IEnumerable<Users> GetAll();
-        Users GetById(int id);
+        Users GetById(Guid id);
         Users Create(Users user, string password);
         void Update(Users user, string password = null);
-        void Delete(int id);
+        void Delete(Guid id);
     }
 
     public class UserService : IUserService
@@ -52,7 +52,7 @@ namespace BakeryAPI.Services
             return _context.Users;
         }
 
-        public Users GetById(int id)
+        public Users GetById(Guid id)
         {
             return _context.Users.Find(id);
         }
@@ -111,7 +111,7 @@ namespace BakeryAPI.Services
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             var user = _context.Users.Find(id);
             if (user != null)
