@@ -119,6 +119,14 @@ namespace BakeryAPI.Models
                     .HasColumnName("password")
                     .HasMaxLength(50);
 
+                entity.Property(e => e.PasswordHash)
+                    .HasColumnName("passwordHash")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.PasswordSalt)
+                    .HasColumnName("passwordSalt")
+                    .HasMaxLength(50);
+
                 entity.Property(e => e.Username)
                     .HasColumnName("username")
                     .HasMaxLength(50);

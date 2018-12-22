@@ -1,6 +1,7 @@
 using AutoMapper;
 using BakeryAPI.Dtos;
-using BakeryAPI.Entities;
+//using BakeryAPI.Entities;
+using BakeryAPI.Models;
 
 namespace BakeryAPI.Helpers
 {
@@ -8,8 +9,8 @@ namespace BakeryAPI.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();
+            CreateMap<Users, UserDto>();
+            CreateMap<UserDto, Users>();
         }
     }
 }

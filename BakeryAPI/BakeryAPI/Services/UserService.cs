@@ -1,31 +1,34 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BakeryAPI.Entities;
+//using BakeryAPI.Entities;
 using BakeryAPI.Helpers;
+using BakeryAPI.Models;
 
 namespace BakeryAPI.Services
 {
     public interface IUserService
     {
-        User Authenticate(string username, string password);
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-        User Create(User user, string password);
-        void Update(User user, string password = null);
+        Users Authenticate(string username, string password);
+        IEnumerable<Users> GetAll();
+        Users GetById(int id);
+        Users Create(Users user, string password);
+        void Update(Users user, string password = null);
         void Delete(int id);
     }
 
     public class UserService : IUserService
     {
-        private DataContext _context;
+        //private DataContext _context;
+        private readonly BakeryDbContext _context;
 
-        public UserService(DataContext context)
+        public UserService(BakeryDbContext context)
+        //public UserService(DataContext context)
         {
             _context = context;
         }
 
-        public User Authenticate(string username, string password)
+        public Users Authenticate(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
@@ -44,17 +47,17 @@ namespace BakeryAPI.Services
             return user;
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<Users> GetAll()
         {
             return _context.Users;
         }
 
-        public User GetById(int id)
+        public Users GetById(int id)
         {
             return _context.Users.Find(id);
         }
 
-        public User Create(User user, string password)
+        public Users Create(Users user, string password)
         {
             // validation
             if (string.IsNullOrWhiteSpace(password))
@@ -75,7 +78,7 @@ namespace BakeryAPI.Services
             return user;
         }
 
-        public void Update(User userParam, string password = null)
+        public void Update(Users userParam, string password = null)
         {
             var user = _context.Users.Find(userParam.Id);
 

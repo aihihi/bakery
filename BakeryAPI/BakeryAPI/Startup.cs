@@ -47,7 +47,7 @@ namespace BakeryAPI
             services.AddDbContext<BakeryDbContext>(options => options.UseSqlServer(connection));
 
             //services.AddCors();
-            services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
+            //services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
             //services.AddMvc();
             
             services.AddAutoMapper();
