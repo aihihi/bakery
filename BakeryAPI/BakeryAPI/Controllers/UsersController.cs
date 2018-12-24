@@ -1,4 +1,20 @@
-﻿using System;using System.Collections.Generic;using Microsoft.AspNetCore.Mvc;using AutoMapper;using System.IdentityModel.Tokens.Jwt;using BakeryAPI.Helpers;using Microsoft.Extensions.Options;using System.Text;using Microsoft.IdentityModel.Tokens;using System.Security.Claims;using Microsoft.AspNetCore.Authorization;using BakeryAPI.Services;using BakeryAPI.Dtos;using BakeryAPI.Entities;using BakeryAPI.Models;namespace BakeryAPI.Controllers
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using System.IdentityModel.Tokens.Jwt;
+using BakeryAPI.Helpers;
+using Microsoft.Extensions.Options;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using BakeryAPI.Services;
+using BakeryAPI.Dtos;
+using BakeryAPI.Entities;
+using BakeryAPI.Models;
+
+namespace BakeryAPI.Controllers
 {
     [Authorize]
     [ApiController]
@@ -43,12 +59,16 @@
             var tokenString = tokenHandler.WriteToken(token);
 
             // return basic user info (without password) and token to store client side
-            return Ok(new
-            {
+            var profile = new {
                 Id = user.Id,
                 Username = user.Username,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+            };
+            return Ok(new
+            {
+                profile = profile,
+                
                 Token = tokenString
             });
         }

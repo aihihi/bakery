@@ -1,43 +1,49 @@
-/*
- * AppReducer
- *
- * The reducer takes care of our data. Using actions, we can change our
- * application state.
- * To add a new action, add it to the switch statement in the reducer function
- *
- * Example:
- * case YOUR_ACTION_CONSTANT:
- *   return state.set('yourStateVariable', true);
- */
-
 import { fromJS } from 'immutable';
 
-import { LOAD_REPOS_SUCCESS, LOAD_REPOS, LOAD_REPOS_ERROR } from './constants';
+import {
+  LOGIN_BEGIN,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT,
+  LOGOUT_UNAUTHORIZED,
+} from './constants';
 
 // The initial state of the App
 const initialState = fromJS({
-  loading: false,
-  error: false,
-  currentUser: false,
-  userData: {
-    repositories: false,
-  },
+  isLoggingIn: false, // Busy
+  isLoggedIn: false,
+  userInfo: null,
+  accessToken: null,
+  // idToken: null,
+  loginError: null,
 });
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case LOAD_REPOS:
+    case LOGIN_BEGIN:
       return state
-        .set('loading', true)
-        .set('error', false)
-        .setIn(['userData', 'repositories'], false);
-    case LOAD_REPOS_SUCCESS:
+        .set('isLoggingIn', true);
+
+    case LOGIN_SUCCESS:
       return state
-        .setIn(['userData', 'repositories'], action.repos)
-        .set('loading', false)
-        .set('currentUser', action.username);
-    case LOAD_REPOS_ERROR:
-      return state.set('error', action.error).set('loading', false);
+        .set('isLoggedIn', true)
+        .set('isLoggingIn', false)
+        .set('accessToken', action.accessToken)
+        .set('idToken', action.idToken)
+        .set('userInfo', action.userInfo)
+        .set('loginError', null);
+
+    case LOGIN_FAILURE:
+      return state
+        .set('isLoggingIn', false)
+        .set('loginError', action.errorMessage);
+
+    case LOGOUT:
+      return state;
+
+    case LOGOUT_UNAUTHORIZED:
+      return state.set('loginError', '');
+
     default:
       return state;
   }

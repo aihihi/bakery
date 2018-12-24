@@ -8,11 +8,11 @@ import { Link } from 'react-router-dom';
 
 import LoginForm from './LoginForm';
 
-// import {
-//   selectIsLoggingIn,
-//   selectLoginError,
-// } from 'containers/App/selectors';
-import { loginWithUsernamePassword } from 'containers/App/actions/authActions';
+import {
+  selectIsLoggingIn,
+  selectLoginError,
+} from 'containers/App/selectors';
+import { loginWithUsernamePassword } from 'containers/App/actions';
 
 // import messages from '../../messages';
 
@@ -24,7 +24,7 @@ class LoginScreen extends Component {
 
     this.state = {
       values: {
-        email: '',
+        username: '',
       },
     };
   }
@@ -33,7 +33,7 @@ class LoginScreen extends Component {
 
   handleFormSubmit = (loginFormValues) => {
     const { login } = this.props;
-    login(loginFormValues.email, loginFormValues.password);
+    login(loginFormValues.username, loginFormValues.password);
   }
 
   render() {
@@ -47,10 +47,8 @@ class LoginScreen extends Component {
           initialValues={values}
           onSubmit={this.handleFormSubmit}
           onChange={this.handleFormChange}
-          disabled={false}
-          busy={false}
-          // disabled={isLoggingIn}
-          // busy={isLoggingIn}
+          disabled={isLoggingIn}
+          busy={isLoggingIn}
         />
       </div>
     );
@@ -75,6 +73,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(
-  withConnect
-)(LoginScreen);
+export default compose(withConnect)(LoginScreen);

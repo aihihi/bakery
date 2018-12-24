@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { injectIntl, intlShape } from 'react-intl';
-import { withStyles } from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
-import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
 import { withFormValidation, hasErrors, isEmailAddressValid } from 'components/ValidatedFormHOC';
 
-import messages from '../../messages';
+// import messages from '../../messages';
 
 const styles = (theme) => ({
   button: {
@@ -26,20 +26,17 @@ const LoginForm = ({ intl, classes, onSubmit, onChange, values, disabled, busy, 
 
   return (
     <form noValidate autoComplete="off" onSubmit={onSubmit}>
-      <Typography color="primary" align="center" className={classes.headerText}>
-        {intl.formatMessage(messages.access_your_dashboard)}
-      </Typography>
       <TextField
         required
-        error={hasErrors(errors.email)}
-        helperText={hasErrors(errors.email) ? errors.email : null}
-        id="email"
-        label={intl.formatMessage(messages.email)}
-        value={values.email}
-        onChange={handleChange('email')}
-        onBlur={handleBlur('email')}
+        error={hasErrors(errors.username)}
+        helperText={hasErrors(errors.username) ? errors.username : null}
+        id="username"
+        label="User name"
+        value={values.username}
+        onChange={handleChange('username')}
+        onBlur={handleBlur('username')}
         margin="normal"
-        placeholder={intl.formatMessage(messages.email_placeholder)}
+        placeholder="Please input User Name"
         InputLabelProps={{
           shrink: true,
         }}
@@ -52,7 +49,7 @@ const LoginForm = ({ intl, classes, onSubmit, onChange, values, disabled, busy, 
         error={hasErrors(errors.password)}
         helperText={hasErrors(errors.password) ? errors.password : null}
         id="password"
-        label={intl.formatMessage(messages.password)}
+        label="Password"
         type="password"
         value={values.password}
         InputLabelProps={{
@@ -67,7 +64,6 @@ const LoginForm = ({ intl, classes, onSubmit, onChange, values, disabled, busy, 
         disabled={disabled || busy}
       />
 
-      {/* TODO: @rob, Add button spinner on busy prop */}
       <Button
         type="submit"
         variant="raised"
@@ -78,7 +74,7 @@ const LoginForm = ({ intl, classes, onSubmit, onChange, values, disabled, busy, 
         onFocus={onSubmitFocus}
         disabled={disabled || busy}
       >
-        {intl.formatMessage(messages.login)}
+        Submit
       </Button>
     </form>
   );
@@ -106,20 +102,16 @@ LoginForm.defaultProps = {
 };
 
 export default injectIntl(compose(
-  withFormValidation(isLoginFieldValid, ['email', 'password']),
+  withFormValidation(isLoginFieldValid, ['username', 'password']),
   withStyles(styles)
 )(LoginForm));
 
 // TODO: Use i18n strings here.
 function isLoginFieldValid(name, values) {
   switch (name) {
-    case 'email':
+    case 'username':
       if (values[name].length < 1) {
-        return ['You must enter an email address'];
-      }
-
-      if (!isEmailAddressValid(values[name])) {
-        return ['Please enter a valid email address'];
+        return ['You must enter an username address'];
       }
 
       return [];
