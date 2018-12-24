@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { put, call, select } from 'redux-saga/effects';
 // import { logoutUnauthorized } from 'containers/App/actions/authActions';
-// import { selectAuthAccessToken } from 'containers/App/selectors';
+import { selectAuthAccessToken } from 'containers/App/selectors';
 
 const apiEndpoint = 'https://localhost:44394/api/';
 
@@ -37,14 +37,14 @@ export const lib = {
  * @return {object}                     The response data
  */
 export default function* requestSaga(url, options = {}) {
-//   const token = yield select(selectAuthAccessToken);
+  const token = yield select(selectAuthAccessToken);
   const requestOptions = Object.assign(options, {
     headers: Object.assign(
       options.headers || {},
-    //   !options.noAuth && { Authorization: `Bearer ${token}` },
-    //   {
-    //     'Content-Type': 'application/json',
-    //   },
+      !options.noAuth && { Authorization: `Bearer ${token}` },
+      {
+        'Content-Type': 'application/json',
+      },
     ),
   });
 

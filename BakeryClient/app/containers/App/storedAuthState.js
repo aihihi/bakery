@@ -1,4 +1,4 @@
-export function setStoredAuthState(accessToken, idToken, profile) {
+export function setStoredAuthState(accessToken, profile) {
   // localStorage.setItem('id_token', idToken);
   localStorage.setItem('access_token', accessToken);
   localStorage.setItem('profile', JSON.stringify(profile));

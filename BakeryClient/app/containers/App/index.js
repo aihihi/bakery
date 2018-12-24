@@ -9,7 +9,7 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import { DAEMON } from 'utils/constants';
 
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import Employee from 'containers/Employee/Loadable';
@@ -48,8 +48,8 @@ class App extends Component {
           </Helmet>
           <Header />
 
-          <Redirect from="/" to="/login" />
           <Switch>
+            <Route exact path="/" component={LoginScreen} />
             <Route path="/login" component={LoginScreen} />
 
           </Switch>
@@ -91,8 +91,15 @@ App.propTypes = {
 const mapStateToProps = (state) => ({
   isLoggedIn: selectIsLoggedIn(state),
 });
-const withConnect = connect(mapStateToProps, null);
+const withConnect = connect(
+  mapStateToProps,
+  null,
+);
 const withSaga = injectSaga({ key: 'global', saga, mode: DAEMON });
 
-export default compose(withConnect, withSaga)(App);
+export default compose(
+  withConnect,
+  withRouter,
+  withSaga,
+)(App);
 // export default compose(withConnect)(App);

@@ -8,10 +8,13 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 using BakeryAPI.Models;
 using System.Globalization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace BakeryAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController : ControllerBase

@@ -66,7 +66,7 @@ const LoginForm = ({ intl, classes, onSubmit, onChange, values, disabled, busy, 
 
       <Button
         type="submit"
-        variant="raised"
+        variant="contained"
         color="secondary"
         fullWidth
         className={classes.button}

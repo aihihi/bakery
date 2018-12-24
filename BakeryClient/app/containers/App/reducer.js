@@ -14,7 +14,6 @@ const initialState = fromJS({
   isLoggedIn: false,
   userInfo: null,
   accessToken: null,
-  // idToken: null,
   loginError: null,
 });
 
@@ -29,7 +28,6 @@ function appReducer(state = initialState, action) {
         .set('isLoggedIn', true)
         .set('isLoggingIn', false)
         .set('accessToken', action.accessToken)
-        .set('idToken', action.idToken)
         .set('userInfo', action.userInfo)
         .set('loginError', null);
 
