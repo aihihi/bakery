@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { Switch, Route, withRouter, Link } from 'react-router-dom';
+import { Switch, Route, withRouter, Link, Redirect } from 'react-router-dom';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
@@ -35,10 +35,10 @@ export class Employee extends React.Component {
   render() {
     return (
       <div>
+        {/*<Redirect exact from={`${this.props.match.url}`} to={`${this.props.match.url}/list`}/>*/}
         <Switch>
           <Route
             path={`${this.props.match.url}`}
-            // path="/employee/list"
             exact
             render={(routeProps) => (
               <EmployeeList {...routeProps} data={this.props.employeeList} />
@@ -49,7 +49,6 @@ export class Employee extends React.Component {
             exact
             render={(routeProps) => (
               <EmployeeList
-                {...routeProps}
                 data={this.props.employeeList}
                 deleteEmployeeRequest={this.props.actions.deleteEmployeeRequest}
                 setCurrentEmployee={this.props.actions.setCurrentEmployee}

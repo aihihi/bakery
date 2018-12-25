@@ -37,7 +37,7 @@ function appReducer(state = initialState, action) {
         .set('loginError', action.errorMessage);
 
     case LOGOUT:
-      return state;
+      return initialState;
 
     case LOGOUT_UNAUTHORIZED:
       return state.set('loginError', '');

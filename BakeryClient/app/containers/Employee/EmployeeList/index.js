@@ -1,5 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
+// import { compose, bindActionCreators } from 'redux';
+
+// import { Switch, Route, withRouter, Link, Redirect } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper/Paper';
 import Table from '@material-ui/core/Table/Table';
@@ -304,3 +307,8 @@ EmployeeList.propTypes = {
 };
 
 export default withStyles(styles)(EmployeeList);
+// export default compose(
+//   // withReducer,
+//   withRouter,
+//   withStyles,
+// )(EmployeeList);

@@ -9,14 +9,14 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import { DAEMON } from 'utils/constants';
 
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter, BrowserRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import Employee from 'containers/Employee/Loadable';
 import Store from 'containers/Store/Loadable';
 import WorkingDay from 'containers/WorkingDay/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Header from 'components/Header';
+import Header from './HeaderContainer';
 import Footer from 'components/Footer';
 import { selectIsLoggedIn } from 'containers/App/selectors';
 import saga from './saga';
@@ -39,6 +39,29 @@ class App extends Component {
     const { isLoggedIn } = this.props;
     if (!isLoggedIn) {
       return (
+        <BrowserRouter>
+          <AppWrapper>
+            <Helmet
+              titleTemplate="%s - Bakery Management"
+              defaultTitle="Bakery Management"
+            >
+              <meta name="description" content="A Small Bakery" />
+            </Helmet>
+            <Header />
+
+            <Switch>
+              <Route exact path="/" component={LoginScreen} />
+              <Route path="/login" component={LoginScreen} />
+
+            </Switch>
+            <Footer />
+            <GlobalStyle />
+          </AppWrapper>
+        </BrowserRouter>
+          );
+    }
+    return (
+      <BrowserRouter>
         <AppWrapper>
           <Helmet
             titleTemplate="%s - Bakery Management"
@@ -49,35 +72,16 @@ class App extends Component {
           <Header />
 
           <Switch>
-            <Route exact path="/" component={LoginScreen} />
-            <Route path="/login" component={LoginScreen} />
-
+            <Route exac path="/employee" component={Employee} />
+            <Route path="/store" component={Store} />
+            <Route path="/working-day" component={WorkingDay} />
+            <Route path="" component={NotFoundPage} />
           </Switch>
+
           <Footer />
           <GlobalStyle />
         </AppWrapper>
-          );
-    }
-    return (
-      <AppWrapper>
-        <Helmet
-          titleTemplate="%s - Bakery Management"
-          defaultTitle="Bakery Management"
-        >
-          <meta name="description" content="A Small Bakery" />
-        </Helmet>
-        <Header />
-
-        <Switch>
-          <Route path="/employee" component={Employee} />
-          <Route path="/store" component={Store} />
-          <Route path="/working-day" component={WorkingDay} />
-          <Route path="" component={NotFoundPage} />
-        </Switch>
-
-        <Footer />
-        <GlobalStyle />
-      </AppWrapper>
+      </BrowserRouter>
     );
   }
 
@@ -99,7 +103,7 @@ const withSaga = injectSaga({ key: 'global', saga, mode: DAEMON });
 
 export default compose(
   withConnect,
-  withRouter,
+  // withRouter,
   withSaga,
 )(App);
 // export default compose(withConnect)(App);

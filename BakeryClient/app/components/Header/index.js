@@ -1,4 +1,7 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -29,7 +32,6 @@ const styles = {
 
 class Header extends React.Component {
   state = {
-    auth: true,
     anchorEl: null,
     top: false,
   };
@@ -41,7 +43,13 @@ class Header extends React.Component {
   };
 
   handleChange = event => {
-    this.setState({ auth: event.target.checked });
+    // this.setState({ auth: event.target.checked });
+    const { auth, logout, goToLoginPage } = this.props;
+    if (auth) {
+      logout();
+    }
+    goToLoginPage();
+
   };
 
   handleMenu = event => {
@@ -53,8 +61,8 @@ class Header extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { auth, anchorEl } = this.state;
+    const { classes, auth } = this.props;
+    const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
     return (
@@ -122,6 +130,13 @@ class Header extends React.Component {
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
+  auth: PropTypes.bool,
+  logout: PropTypes.func,
 };
 
 export default withStyles(styles)(Header);
+// export default compose(
+//   withStyles,
+//
+//   withRouter,
+// )(Header);
