@@ -72,6 +72,7 @@ class App extends Component {
           <Header />
 
           <Switch>
+            <Redirect exac from="/login" to="/working-day" />
             <Route exac path="/employee" component={Employee} />
             <Route path="/store" component={Store} />
             <Route path="/working-day" component={WorkingDay} />
