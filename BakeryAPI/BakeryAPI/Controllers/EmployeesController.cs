@@ -34,6 +34,26 @@ namespace BakeryAPI.Controllers
         }
 
         // GET: api/Employees/5
+        [HttpGet("perStore/{id}")]
+        public async Task<IActionResult> PerStore([FromRoute] Guid id)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
+
+            var employees =  await _context.Employees.Where(emp => emp.WorkingForStore == id).ToListAsync();
+            //var employees = await _context.Employees.FindAsync(id);
+
+            if (employees == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(employees);
+        }
+
+        // GET: api/Employees/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployees([FromRoute] Guid id)
         {
@@ -120,6 +140,28 @@ namespace BakeryAPI.Controllers
             }
 
             return CreatedAtAction("GetEmployees", new { id = employees.Id }, employees);
+        }
+
+        // POST: api/Employees
+        [HttpPost("multipleUpdateWorkingFor")]
+        //public async Task<IActionResult> multipleUpdateWorkingFor([FromBody] List<Guid> employeeIds)
+        //public async Task<IActionResult> multipleUpdateWorkingFor(Guid storeId, List<Guid> employeeIds)
+        public async Task<IActionResult> multipleUpdateWorkingFor(EmployeeWorkingFor info)
+        {
+
+            var storeId = info.StoreId;
+            var employeeIds = info.EmployeeIds;
+            foreach(var eId in employeeIds)
+            {
+                var employee = _context.Employees.Where(emp => emp.Id == eId).FirstOrDefault();
+                if (employee != null)
+                {
+                    employee.WorkingForStore = storeId;
+                    _context.Employees.Update(employee);
+                    _context.SaveChanges();
+                }
+            }
+            return Ok();
         }
 
         // DELETE: api/Employees/5

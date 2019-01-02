@@ -12,5 +12,6 @@ namespace BakeryAPI.Models
         public DateTime? JoinedDate { get; set; }
         public DateTime? Birthday { get; set; }
         public string Note { get; set; }
+        public Guid? WorkingForStore { get; set; }
     }
 }

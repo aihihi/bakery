@@ -15,6 +15,7 @@ import {
 } from '../selectors';
 import {
   makeSelectEmployeeList,
+  makeSelectEmployeesPerStore,
 } from '../../Employee/selectors';
 import {
   loadStorePerIdRequest,
@@ -25,6 +26,8 @@ import {
 
 import {
   loadEmployeeListRequest,
+  setEmployeeWorkingFor,
+  loadEmployeePerStoreRequest,
 } from '../../Employee/actions';
 
 import StoreInputForm from './StoreInputForm';
@@ -77,6 +80,7 @@ class StoreInput extends React.Component {
 
   componentDidMount() {
     this.props.actions.loadEmployeeListRequest();
+    this.props.actions.loadEmployeePerStoreRequest(this.state.values.id);
   }
 
   handleEmployeeChange = value => {
@@ -88,10 +92,12 @@ class StoreInput extends React.Component {
 
   handleFormSubmit = () => {
     const { actions } = this.props;
+    const { values, selectedEmployees } = this.state;
     (this.state.mode === UPDATE_EDIT)
-      ? actions.updateStoreRequest(this.state.values)
-      : actions.saveStoreRequest(this.state.values);
-    console.log("emps: ", this.state.selectedEmployees)
+      ? actions.updateStoreRequest(values)
+      : actions.saveStoreRequest(values);
+    const employeeIds = selectedEmployees.map(emp => emp.id);
+    actions.setEmployeeWorkingFor(values.id, employeeIds);
   };
 
   handleGoToList = () => this.props.history.push('/store/list');
@@ -107,13 +113,14 @@ class StoreInput extends React.Component {
 
   render() {
     const { values, openDialog } = this.state;
-    const { requestError, employeeList } = this.props;
+    const { requestError, employeeList, employeesPerStore } = this.props;
 
     return (
       <div>
         <StoreInputForm
           initialValues={values}
           employeeList={employeeList}
+          employeesPerStore={employeesPerStore}
           onEmployeeChange={this.handleEmployeeChange}
           selectedEmployees={this.state.selectedEmployees}
           onSubmit={this.handleFormSubmit}
@@ -137,6 +144,7 @@ const mapStateToProps = createStructuredSelector({
   requestError: makeSelectRequestError(),
   requestSuccess: makeSelectRequestSuccess(),
   employeeList: makeSelectEmployeeList(),
+  employeesPerStore: makeSelectEmployeesPerStore(),
 });
 
 
@@ -148,6 +156,8 @@ const mapDispatchToProps = (dispatch) => ({
       loadStorePerIdRequest,
       resetStoreSuccess,
       loadEmployeeListRequest,
+      setEmployeeWorkingFor,
+      loadEmployeePerStoreRequest,
     },
     dispatch,
   ),

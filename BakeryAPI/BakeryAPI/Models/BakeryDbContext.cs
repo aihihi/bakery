@@ -67,6 +67,8 @@ namespace BakeryAPI.Models
                     .HasMaxLength(50);
 
                 entity.Property(e => e.Note).HasColumnName("note");
+
+                entity.Property(e => e.WorkingForStore).HasColumnName("workingForStore");
             });
 
             modelBuilder.Entity<PaymentRole>(entity =>
@@ -119,13 +121,9 @@ namespace BakeryAPI.Models
                     .HasColumnName("password")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.PasswordHash)
-                    .HasColumnName("passwordHash")
-                    .HasMaxLength(50);
+                entity.Property(e => e.PasswordHash).HasColumnName("passwordHash");
 
-                entity.Property(e => e.PasswordSalt)
-                    .HasColumnName("passwordSalt")
-                    .HasMaxLength(50);
+                entity.Property(e => e.PasswordSalt).HasColumnName("passwordSalt");
 
                 entity.Property(e => e.Username)
                     .HasColumnName("username")

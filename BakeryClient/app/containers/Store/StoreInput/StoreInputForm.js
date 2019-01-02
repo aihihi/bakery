@@ -30,7 +30,7 @@ const styles = (theme) => ({
 
 const nowDate = () => new Date();
 
-const StoreInputForm = ({ intl, classes, onEmployeeChange, selectedEmployees, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus, employeeList, }) => {
+const StoreInputForm = ({ intl, classes, onEmployeeChange, employeesPerStore, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus, employeeList, }) => {
   const handleChange = (name) => (event) => onChange(name, event.target.value);
   const handleBlur = (name) => () => onBlur(name);
 
@@ -57,7 +57,7 @@ const StoreInputForm = ({ intl, classes, onEmployeeChange, selectedEmployees, on
         multi
         options={employeeList}
         handleChange={onEmployeeChange}
-        selectedEmployees={selectedEmployees}
+        selectedValues={employeesPerStore}
         valueField="id"
         labelField="fullName"
         title="Employees"

@@ -50,7 +50,6 @@ F:\bakery\BakeryAPI\BakeryAPI\bin\Debug\netcoreapp2.1\BakeryAPI.runtimeconfig.de
 F:\bakery\BakeryAPI\BakeryAPI\bin\Debug\netcoreapp2.1\BakeryAPI.dll
 F:\bakery\BakeryAPI\BakeryAPI\bin\Debug\netcoreapp2.1\BakeryAPI.pdb
 F:\bakery\BakeryAPI\BakeryAPI\bin\Debug\netcoreapp2.1\BakeryAPI.Views.dll
-F:\bakery\BakeryAPI\BakeryAPI\obj\Debug\netcoreapp2.1\BakeryAPI.csprojAssemblyReference.cache
 F:\bakery\BakeryAPI\BakeryAPI\obj\Debug\netcoreapp2.1\BakeryAPI.csproj.CoreCompileInputs.cache
 F:\bakery\BakeryAPI\BakeryAPI\obj\Debug\netcoreapp2.1\BakeryAPI.RazorAssemblyInfo.cache
 F:\bakery\BakeryAPI\BakeryAPI\obj\Debug\netcoreapp2.1\BakeryAPI.RazorAssemblyInfo.cs
@@ -60,3 +59,4 @@ F:\bakery\BakeryAPI\BakeryAPI\obj\Debug\netcoreapp2.1\BakeryAPI.RazorTargetAssem
 F:\bakery\BakeryAPI\BakeryAPI\obj\Debug\netcoreapp2.1\BakeryAPI.dll
 F:\bakery\BakeryAPI\BakeryAPI\obj\Debug\netcoreapp2.1\BakeryAPI.pdb
 F:\bakery\BakeryAPI\BakeryAPI\obj\Debug\netcoreapp2.1\BakeryAPI.csproj.CopyComplete
+F:\Bakery\BakeryAPI\BakeryAPI\obj\Debug\netcoreapp2.1\BakeryAPI.csprojAssemblyReference.cache

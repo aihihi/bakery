@@ -11,6 +11,8 @@ import {
   LOAD_EMPLOYEE_LIST_REQUEST,
   LOAD_EMPLOYEE_PER_ID_REQUEST,
   DELETE_EMPLOYEE_REQUEST,
+  SET_EMPLOYEES_WORKING_FOR,
+  LOAD_EMPLOYEE_PER_STORE_REQUEST,
 } from './constants';
 import {
   saveEmployeeSuccess,
@@ -23,7 +25,10 @@ import {
   loadEmployeeListFailure,
   loadEmployeePerIdSuccess,
   loadEmployeePerIdFailure,
+  loadEmployeePerStoreSuccess,
+  loadEmployeesPerStoreFailure,
 } from './actions';
+import { saveStoreFailure, saveStoreSuccess } from '../Store/actions';
 
 
 export function* loadEmployeeListSaga() {
@@ -46,6 +51,17 @@ export function* loadEmployeePerIdSaga(action) {
     yield put(loadEmployeePerIdSuccess(response));
   } catch (err) {
     yield put(loadEmployeePerIdFailure(err));
+  }
+}
+export function* loadEmployeePerStoreSaga(action) {
+  const requestURL = `employees/perStore/${action.payload}`;
+
+  try {
+    // Call our request helper (see 'utils/request')
+    const response = yield call(requestSaga, requestURL);
+    yield put(loadEmployeePerStoreSuccess(response));
+  } catch (err) {
+    yield put(loadEmployeePerStoreFailure(err));
   }
 }
 export function* deleteEmployeeSaga(action) {
@@ -111,6 +127,27 @@ export function* saveEmployeeSaga(action) {
   }
 }
 
+export function* setEmployeeWorkingForSaga(action) {
+  // Select username from store
+  const requestURL = 'employees/multipleUpdateWorkingFor';
+  const { storeId, employeeIds } = action;
+  const config = {
+    method: 'POST',
+    data: {
+      storeId,
+      employeeIds,
+    },
+  };
+  try {
+    // Call our request helper (see 'utils/request')
+    const response = yield call(requestSaga, requestURL, config);
+    // yield put(saveStoreSuccess(response));
+  } catch (err) {
+    // yield put(saveStoreFailure(err));
+  }
+}
+
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -124,4 +161,6 @@ export default function* employeeWatcher() {
   yield takeLatest(DELETE_EMPLOYEE_REQUEST, deleteEmployeeSaga);
   yield takeLatest(LOAD_EMPLOYEE_LIST_REQUEST, loadEmployeeListSaga);
   yield takeLatest(LOAD_EMPLOYEE_PER_ID_REQUEST, loadEmployeePerIdSaga);
+  yield takeLatest(LOAD_EMPLOYEE_PER_STORE_REQUEST, loadEmployeePerStoreSaga);
+  yield takeLatest(SET_EMPLOYEES_WORKING_FOR, setEmployeeWorkingForSaga);
 }

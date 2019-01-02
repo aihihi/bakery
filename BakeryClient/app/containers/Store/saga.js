@@ -12,6 +12,10 @@ import {
   LOAD_STORE_PER_ID_REQUEST,
   DELETE_STORE_REQUEST,
 } from './constants';
+
+import {
+  SET_EMPLOYEES_WORKING_FOR,
+} from '../Employee/constants';
 import {
   saveStoreSuccess,
   saveStoreFailure,
@@ -109,6 +113,26 @@ export function* saveStoreSaga(action) {
   }
 }
 
+// export function* setEmployeeWorkingForSaga(action) {
+//   // Select username from store
+//   const requestURL = 'employees/multipleUpdateWorkingFor';
+//   const { storeId, employeeIds } = action;
+//   const config = {
+//     method: 'POST',
+//     data: {
+//       storeId,
+//       employeeIds,
+//     },
+//   };
+//   try {
+//     // Call our request helper (see 'utils/request')
+//     const response = yield call(requestSaga, requestURL, config);
+//     // yield put(saveStoreSuccess(response));
+//   } catch (err) {
+//     // yield put(saveStoreFailure(err));
+//   }
+// }
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -123,4 +147,5 @@ export default function* storeWatcher() {
   yield takeLatest(DELETE_STORE_REQUEST, deleteStoreSaga);
   yield takeLatest(LOAD_STORE_LIST_REQUEST, loadStoreListSaga);
   yield takeLatest(LOAD_STORE_PER_ID_REQUEST, loadStorePerIdSaga);
+  // yield takeLatest(SET_EMPLOYEES_WORKING_FOR, setEmployeeWorkingForSaga);
 }

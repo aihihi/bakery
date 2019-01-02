@@ -11,11 +11,15 @@ import {
   LOAD_EMPLOYEE_PER_ID_REQUEST,
   LOAD_EMPLOYEE_PER_ID_SUCCESS,
   LOAD_EMPLOYEE_PER_ID_ERROR,
+  LOAD_EMPLOYEE_PER_STORE_REQUEST,
+  LOAD_EMPLOYEE_PER_STORE_SUCCESS,
+  LOAD_EMPLOYEE_PER_STORE_ERROR,
   UPDATE_EMPLOYEE_REQUEST,
   UPDATE_EMPLOYEE_SUCCESS,
   UPDATE_EMPLOYEE_ERROR,
   RESET_EMPLOYEE_SUCCESS,
   SET_CURRENT_EMPLOYEE,
+  SET_EMPLOYEES_WORKING_FOR,
 } from './constants';
 
 /**
@@ -126,6 +130,32 @@ export function resetEmployeeSuccess() {
 export function setCurrentEmployee(payload) {
   return {
     type: SET_CURRENT_EMPLOYEE,
+    payload,
+  };
+}
+export function setEmployeeWorkingFor(storeId, employeeIds) {
+  return {
+    type: SET_EMPLOYEES_WORKING_FOR,
+    storeId,
+    employeeIds,
+  };
+}
+
+export function loadEmployeePerStoreRequest(payload) {
+  return {
+    type: LOAD_EMPLOYEE_PER_STORE_REQUEST,
+    payload,
+  };
+}
+export function loadEmployeePerStoreSuccess(payload) {
+  return {
+    type: LOAD_EMPLOYEE_PER_STORE_SUCCESS,
+    payload,
+  };
+}
+export function loadEmployeePerStoreFailure(payload) {
+  return {
+    type: LOAD_EMPLOYEE_PER_STORE_ERROR,
     payload,
   };
 }
