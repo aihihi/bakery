@@ -28,10 +28,14 @@ import {
   loadEmployeeListRequest,
   setEmployeeWorkingFor,
   loadEmployeePerStoreRequest,
+  setEmployeesPerStore,
 } from '../../Employee/actions';
 
 import StoreInputForm from './StoreInputForm';
 import AlertDialogSlide from 'components/DialogSlide';
+
+// const em = {id: "cb527966-bb9d-4c91-b228-6d761ca9d720", fullName: "Ly Thi Huong", mobilePhone: "027115857", address: "150 Lac Long Quan", joinedDate: "2009-02-25T00:00:00"};
+
 class StoreInput extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { requestError, requestSuccess } = nextProps;
@@ -84,9 +88,10 @@ class StoreInput extends React.Component {
   }
 
   handleEmployeeChange = value => {
-    this.setState({
-      selectedEmployees: value,
-    });
+    // this.setState({
+    //   selectedEmployees: value,
+    // });
+    this.props.actions.setEmployeesPerStore(value);
   };
   handleFormChange = values => this.setState({ values });
 
@@ -158,6 +163,7 @@ const mapDispatchToProps = (dispatch) => ({
       loadEmployeeListRequest,
       setEmployeeWorkingFor,
       loadEmployeePerStoreRequest,
+      setEmployeesPerStore,
     },
     dispatch,
   ),

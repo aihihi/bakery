@@ -26,6 +26,7 @@ import {
   SET_CURRENT_EMPLOYEE,
   LOAD_EMPLOYEE_PER_STORE_SUCCESS,
   LOAD_EMPLOYEE_PER_STORE_ERROR,
+  SET_EMPLOYEES_PER_STORE,
 } from './constants';
 
 // The initial state of the App
@@ -70,10 +71,12 @@ function homeReducer(state = initialState, action) {
       return state.set('requestSuccess', null);
     case SET_CURRENT_EMPLOYEE:
       return state.set('currentEmployee', action.payload);
+      case SET_EMPLOYEES_PER_STORE:
+      return state.set('employeesPerStore', action.payload);
     case LOAD_EMPLOYEE_PER_STORE_SUCCESS:
-      return state.set('employeePerStore', action.payload);
+      return state.set('employeesPerStore', action.payload);
     case LOAD_EMPLOYEE_PER_STORE_ERROR:
-      return state.set('employeePerStore', action.payload);
+      return state.set('employeesPerStore', action.payload);
     default:
       return state;
   }

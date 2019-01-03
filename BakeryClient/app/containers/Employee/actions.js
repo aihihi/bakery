@@ -20,6 +20,7 @@ import {
   RESET_EMPLOYEE_SUCCESS,
   SET_CURRENT_EMPLOYEE,
   SET_EMPLOYEES_WORKING_FOR,
+  SET_EMPLOYEES_PER_STORE,
 } from './constants';
 
 /**
@@ -138,6 +139,12 @@ export function setEmployeeWorkingFor(storeId, employeeIds) {
     type: SET_EMPLOYEES_WORKING_FOR,
     storeId,
     employeeIds,
+  };
+}
+export function setEmployeesPerStore(payload) {
+  return {
+    type: SET_EMPLOYEES_PER_STORE,
+    payload,
   };
 }
 
