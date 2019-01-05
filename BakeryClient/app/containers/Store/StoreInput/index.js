@@ -34,7 +34,6 @@ import {
 import StoreInputForm from './StoreInputForm';
 import AlertDialogSlide from 'components/DialogSlide';
 
-// const em = {id: "cb527966-bb9d-4c91-b228-6d761ca9d720", fullName: "Ly Thi Huong", mobilePhone: "027115857", address: "150 Lac Long Quan", joinedDate: "2009-02-25T00:00:00"};
 
 class StoreInput extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -63,7 +62,7 @@ class StoreInput extends React.Component {
         openDialog: false,
         mode: UPDATE_EDIT,
         values: currentStore,
-        selectedEmployees: null,
+        // selectedEmployees: null,
       };
     } else {
       this.state = {
@@ -77,7 +76,7 @@ class StoreInput extends React.Component {
           storeLeader: '',
           note: '',
         },
-        selectedEmployees: null,
+        // selectedEmployees: null,
       };
     }
   }
@@ -88,20 +87,19 @@ class StoreInput extends React.Component {
   }
 
   handleEmployeeChange = value => {
-    // this.setState({
-    //   selectedEmployees: value,
-    // });
-    this.props.actions.setEmployeesPerStore(value);
+    if (value && value.length > 0) {
+      this.props.actions.setEmployeesPerStore(value);
+    }
   };
   handleFormChange = values => this.setState({ values });
 
   handleFormSubmit = () => {
-    const { actions } = this.props;
-    const { values, selectedEmployees } = this.state;
+    const { actions, employeesPerStore } = this.props;
+    const { values } = this.state;
     (this.state.mode === UPDATE_EDIT)
       ? actions.updateStoreRequest(values)
       : actions.saveStoreRequest(values);
-    const employeeIds = selectedEmployees.map(emp => emp.id);
+    const employeeIds = employeesPerStore.map(emp => emp.id);
     actions.setEmployeeWorkingFor(values.id, employeeIds);
   };
 
@@ -127,7 +125,7 @@ class StoreInput extends React.Component {
           employeeList={employeeList}
           employeesPerStore={employeesPerStore}
           onEmployeeChange={this.handleEmployeeChange}
-          selectedEmployees={this.state.selectedEmployees}
+          // selectedEmployees={this.state.selectedEmployees}
           onSubmit={this.handleFormSubmit}
           onChange={this.handleFormChange}
           onCancel={this.handleGoToList}

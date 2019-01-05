@@ -144,14 +144,24 @@ namespace BakeryAPI.Controllers
 
         // POST: api/Employees
         [HttpPost("multipleUpdateWorkingFor")]
-        //public async Task<IActionResult> multipleUpdateWorkingFor([FromBody] List<Guid> employeeIds)
-        //public async Task<IActionResult> multipleUpdateWorkingFor(Guid storeId, List<Guid> employeeIds)
-        public async Task<IActionResult> multipleUpdateWorkingFor(EmployeeWorkingFor info)
+        public async Task<IActionResult> MultipleUpdateWorkingFor(EmployeeWorkingFor info)
         {
-
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var storeId = info.StoreId;
             var employeeIds = info.EmployeeIds;
-            foreach(var eId in employeeIds)
+
+            var employees = await _context.Employees.Where(emp => emp.WorkingForStore == storeId).FirstOrDefaultAsync();
+            if (employees != null)
+            {
+                employees.WorkingForStore = null;
+                _context.Update(employees);
+                _context.Employees.Update(employees);
+            }
+
+            foreach (var eId in employeeIds)
             {
                 var employee = _context.Employees.Where(emp => emp.Id == eId).FirstOrDefault();
                 if (employee != null)
