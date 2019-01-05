@@ -1,5 +1,5 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
-
+import { call, put, fork, takeLatest } from 'redux-saga/effects';
+import employeeWatcher from 'containers/Employee/saga';
 import requestSaga from 'utils/request';
 import {
   SAVE_WORKING_DAY_REQUEST,
@@ -111,6 +111,8 @@ export default function* employeeData() {
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
+  yield fork(employeeWatcher);
+
   yield takeLatest(SAVE_WORKING_DAY_REQUEST, saveWorkingDaySaga);
   yield takeLatest(UPDATE_WORKING_DAY_REQUEST, updateWorkingDaySaga);
   yield takeLatest(DELETE_WORKING_DAY_REQUEST, deleteWorkingDaySaga);

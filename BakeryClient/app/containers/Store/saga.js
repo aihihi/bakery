@@ -13,9 +13,9 @@ import {
   DELETE_STORE_REQUEST,
 } from './constants';
 
-import {
-  SET_EMPLOYEES_WORKING_FOR,
-} from '../Employee/constants';
+// import {
+//   SET_EMPLOYEES_WORKING_FOR,
+// } from '../Employee/constants';
 import {
   saveStoreSuccess,
   saveStoreFailure,

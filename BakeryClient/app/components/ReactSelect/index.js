@@ -243,9 +243,11 @@ class IntegrationReactSelect extends React.Component {
               styles={selectStyles}
               options={options}
               components={components}
-              value={this.state.single}
-              onChange={this.handleChange('single')}
-              placeholder="Search a country (start with a)"
+              value={selectedValues}
+              onChange={handleChange}
+              placeholder={placeHolder}
+              getOptionLabel={opt => opt[labelField]}
+              getOptionValue={opt => opt[valueField]}
             />
           }
           { multi &&

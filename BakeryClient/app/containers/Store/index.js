@@ -104,7 +104,7 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'store', reducer });
+// const withReducer = injectReducer({ key: 'store', reducer });
 const withSaga = injectSaga({ key: 'store', saga });
 
 export default compose(

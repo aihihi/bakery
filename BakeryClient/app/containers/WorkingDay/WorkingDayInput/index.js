@@ -11,6 +11,16 @@ import WorkingDayInputForm from './WorkingDayInputForm';
 import AlertDialogSlide from 'components/DialogSlide';
 // import { EditTwoTone } from '@material-ui/icons';
 import moment from 'moment';
+
+import {
+  loadEmployeeListRequest,
+
+} from '../../Employee/actions';
+
+import {
+  makeSelectEmployeeList,
+} from '../../Employee/selectors';
+
 class WorkingDayInput extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { requestError, requestSuccess } = nextProps;
@@ -45,15 +55,20 @@ class WorkingDayInput extends React.Component {
         mode: ADD_NEW,
         values: {
           id: '',
-          name: '',
-          address: '',
-          firstOpenedDate: '',
-          workingDayLeader: '',
+          store: null,
+          employee: null,
+          workingDate: new Date(),
+          fromTime: null,
+          toTime: null,
           note: '',
         },
       };
     }
 
+  }
+
+  componentDidMount() {
+    this.props.actions.loadEmployeeListRequest();
   }
 
   handleFormChange = values => this.setState({ values });
@@ -76,9 +91,14 @@ class WorkingDayInput extends React.Component {
     this.setState({ openDialog: false });
   };
 
+  handleEmployeeChange = value => {
+    // if (value && value.length > 0) {
+    //   this.props.actions.setEmployeesPerStore(value);
+    // }
+  };
   render() {
     const { values, openDialog } = this.state;
-    const { requestError } = this.props;
+    const { requestError, employeeList } = this.props;
 
     return (
       <div>
@@ -87,6 +107,8 @@ class WorkingDayInput extends React.Component {
           onSubmit={this.handleFormSubmit}
           onChange={this.handleFormChange}
           onCancel={this.handleGoToList}
+          employeeList={employeeList}
+          onEmployeeChange={this.handleEmployeeChange}
           disabled={false}
           busy={false}
         />
@@ -104,15 +126,21 @@ const mapStateToProps = createStructuredSelector({
   workingDayList: makeSelectWorkingDayList(),
   requestError: makeSelectRequestError(),
   requestSuccess: makeSelectRequestSuccess(),
+  employeeList: makeSelectEmployeeList(),
 });
 
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({
-    saveWorkingDayRequest,
-    updateWorkingDayRequest,
-    loadWorkingDayPerIdRequest,
-    resetWorkingDaySuccess}, dispatch),
+  actions: bindActionCreators(
+    {
+      saveWorkingDayRequest,
+      updateWorkingDayRequest,
+      loadWorkingDayPerIdRequest,
+      resetWorkingDaySuccess,
+      loadEmployeeListRequest,
+    },
+    dispatch,
+  ),
 });
 
 const withConnect = connect(
@@ -124,6 +152,7 @@ WorkingDayInput.propTypes = {
   actions: PropTypes.object,
   match: PropTypes.object,
   workingDayList: PropTypes.array,
+  employeeList: PropTypes.array,
 };
 
 export default compose(

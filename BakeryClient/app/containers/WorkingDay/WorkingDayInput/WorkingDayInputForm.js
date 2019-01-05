@@ -6,6 +6,9 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withRouter, Link } from 'react-router-dom';
+import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import ReactSelect from 'components/ReactSelect';
 
 import { withFormValidation, hasErrors} from 'components/ValidatedFormHOC';
 
@@ -18,23 +21,62 @@ const styles = (theme) => ({
     justifyContent: 'center',
   },
   button: {
+    width: 150,
     padding: '1em 0',
-    margin: '1em 0 .75em 0',
+    margin: '1em 1em .75em 0',
   },
   headerText: {
     marginBottom: theme.spacing.unit,
   },
+  toTime: {
+    marginLeft: 20,
+  }
 });
 
 const nowDate = () => new Date();
 
-const WorkingDayInputForm = ({ intl, classes, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus }) => {
+const WorkingDayInputForm = ({ intl, classes, employeeList, onEmployeeChange, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus }) => {
   const handleChange = (name) => (event) => onChange(name, event.target.value);
+  const handleComponentChange = (name) => (value) => onChange(name, value);
   const handleBlur = (name) => () => onBlur(name);
 
   return (
-    <form noValidate autoComplete="off" onSubmit={onSubmit}>
-           <TextField
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <form noValidate autoComplete="off" onSubmit={onSubmit}>
+        <ReactSelect
+
+          options={employeeList}
+          handleChange={handleComponentChange('employee')}
+          selectedValues={values.employee}
+          valueField="id"
+          labelField="fullName"
+          title="Employees"
+          placeHolder="Select multiple employees"
+        />
+        <DatePicker
+          margin="normal"
+          label="Date picker"
+          value={values.workingDate}
+          onChange={handleComponentChange('workingDate')}
+          format="dd/MM/yyyy"
+          fullWidth
+        />
+        <TimePicker
+          id="from-time"
+          label="From Time"
+          margin="normal"
+          value={values.fromTime}
+          onChange={handleComponentChange('fromTime')}
+        />
+        <TimePicker
+          id="to-time"
+          label="To Time"
+          margin="normal"
+          value={values.toTime}
+          onChange={handleComponentChange('toTime')}
+          className={classes.toTime}
+        />
+        <TextField
         id="note"
         label="Note"
         value={values.note}
@@ -49,7 +91,7 @@ const WorkingDayInputForm = ({ intl, classes, onSubmit, onChange, onCancel, valu
         disabled={disabled || busy}
       />
 
-      <div className={classes.buttonWrapper}>
+       <div className={classes.buttonWrapper}>
         <Button
           type="submit"
           variant="contained"
@@ -74,6 +116,7 @@ const WorkingDayInputForm = ({ intl, classes, onSubmit, onChange, onCancel, valu
         </Button>
       </div>
     </form>
+    </MuiPickersUtilsProvider>
   );
 };
 
