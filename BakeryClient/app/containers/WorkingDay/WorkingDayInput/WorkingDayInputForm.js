@@ -28,14 +28,14 @@ const styles = (theme) => ({
   headerText: {
     marginBottom: theme.spacing.unit,
   },
-  toTime: {
+  endTime: {
     marginLeft: 20,
   }
 });
 
 const nowDate = () => new Date();
 
-const WorkingDayInputForm = ({ intl, classes, employeeList, onEmployeeChange, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus }) => {
+const WorkingDayInputForm = ({ intl, classes, employeeList, storeList, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus }) => {
   const handleChange = (name) => (event) => onChange(name, event.target.value);
   const handleComponentChange = (name) => (value) => onChange(name, value);
   const handleBlur = (name) => () => onBlur(name);
@@ -44,14 +44,26 @@ const WorkingDayInputForm = ({ intl, classes, employeeList, onEmployeeChange, on
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <form noValidate autoComplete="off" onSubmit={onSubmit}>
         <ReactSelect
-
+          error={hasErrors(errors.employee)}
+          helperText={hasErrors(errors.employee) ? errors.employee : null}
           options={employeeList}
           handleChange={handleComponentChange('employee')}
           selectedValues={values.employee}
           valueField="id"
           labelField="fullName"
-          title="Employees"
-          placeHolder="Select multiple employees"
+          title="Employee"
+          placeHolder="Select Employees"
+        />
+        <ReactSelect
+          error={hasErrors(errors.store)}
+          helperText={hasErrors(errors.store) ? errors.store : null}
+          options={storeList}
+          handleChange={handleComponentChange('store')}
+          selectedValues={values.store}
+          valueField="id"
+          labelField="name"
+          title="Store"
+          placeHolder="Select Store"
         />
         <DatePicker
           margin="normal"
@@ -65,57 +77,54 @@ const WorkingDayInputForm = ({ intl, classes, employeeList, onEmployeeChange, on
           id="from-time"
           label="From Time"
           margin="normal"
-          value={values.fromTime}
-          onChange={handleComponentChange('fromTime')}
+          value={values.startTime}
+          onChange={handleComponentChange('startTime')}
         />
         <TimePicker
           id="to-time"
           label="To Time"
           margin="normal"
-          value={values.toTime}
-          onChange={handleComponentChange('toTime')}
-          className={classes.toTime}
+          value={values.endTime}
+          onChange={handleComponentChange('endTime')}
+          className={classes.endTime}
         />
         <TextField
-        id="note"
-        label="Note"
-        value={values.note}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        onChange={handleChange('note')}
-        onBlur={handleBlur('note')}
-        placeholder="Please enter Note"
-        margin="normal"
-        fullWidth
-        disabled={disabled || busy}
-      />
-
-       <div className={classes.buttonWrapper}>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          // fullWidth
-          className={classes.button}
-          onClick={onSubmit}
-          onFocus={onSubmitFocus}
+          id="note"
+          label="Note"
+          value={values.note}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={handleChange('note')}
+          onBlur={handleBlur('note')}
+          placeholder="Please enter Note"
+          margin="normal"
+          fullWidth
           disabled={disabled || busy}
-        >
-          Save
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          color="secondary"
-          // fullWidth
-          className={classes.button}
-          onClick={onCancel}
-        >
-          Cancel
-        </Button>
-      </div>
-    </form>
+        />
+         <div className={classes.buttonWrapper}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={onSubmit}
+            onFocus={onSubmitFocus}
+            disabled={disabled || busy}
+          >
+            Save
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            onClick={onCancel}
+          >
+            Cancel
+          </Button>
+        </div>
+      </form>
     </MuiPickersUtilsProvider>
   );
 };
@@ -132,6 +141,8 @@ WorkingDayInputForm.propTypes = {
   onBlur: PropTypes.func,
   onSubmitFocus: PropTypes.func,
   onCancel: PropTypes.func,
+  employeeList: PropTypes.array,
+  storeList: PropTypes.array,
 };
 
 WorkingDayInputForm.defaultProps = {
@@ -144,16 +155,21 @@ WorkingDayInputForm.defaultProps = {
 
 export default compose(
   withRouter,
-  withFormValidation(isLoginFieldValid, ['name']),
+  withFormValidation(isLoginFieldValid, ['store', 'employee']),
   withStyles(styles),
 )(WorkingDayInputForm);
 
 // TODO: Use i18n strings here.
 function isLoginFieldValid(name, values) {
   switch (name) {
-    case 'name':
-      if (values[name].length < 1) {
-        return ['You must enter Store Name'];
+    case 'store':
+      if (!values[name]) {
+        return ['You must enter Store'];
+      }
+      return [];
+    case 'employee':
+      if (!values[name]) {
+        return ['You must enter Employee'];
       }
       return [];
     default:

@@ -253,10 +253,10 @@ class WorkingDayList extends React.Component {
                         <Checkbox checked={isSelected} />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                        {n.name}
+                        {n.store}
                       </TableCell>
-                      <TableCell>{n.address}</TableCell>
-                      <TableCell>{n.workingDayLeader}</TableCell>
+                      <TableCell>{n.employee}</TableCell>
+                      <TableCell>{n.workingDay}</TableCell>
                       <TableCell numeric>
                         <Tooltip title="Edit">
                           <NavLink to={`/working-day/${n.id}`}>

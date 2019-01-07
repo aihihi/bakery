@@ -1,5 +1,6 @@
 import { call, put, fork, takeLatest } from 'redux-saga/effects';
 import employeeWatcher from 'containers/Employee/saga';
+import storeWatcher from 'containers/Store/saga';
 import requestSaga from 'utils/request';
 import {
   SAVE_WORKING_DAY_REQUEST,
@@ -59,20 +60,18 @@ export function* deleteWorkingDaySaga(action) {
 
 export function* updateWorkingDaySaga(action) {
   const requestURL = `WorkingDays/${action.payload.id}`;
-  const { id, name, startTime, endTime, note } = action.payload;
-
+  const { storeId, employeeId, startTime, endTime, note } = action.payload;
   const config = {
     method: 'PUT',
     data: {
-      id,
-      name,
+      storeId,
+      employeeId,
       startTime,
       endTime,
       note,
     },
   };
   try {
-    // Call our request helper (see 'utils/request')
     const response = yield call(requestSaga, requestURL, config);
     yield put(updateWorkingDaySuccess(response));
   } catch (err) {
@@ -81,14 +80,13 @@ export function* updateWorkingDaySaga(action) {
 }
 
 export function* saveWorkingDaySaga(action) {
-  // Select username from store
   const requestURL = 'WorkingDays';
-  const { id, name, startTime, endTime, note } = action.payload;
+  const { storeId, employeeId, startTime, endTime, note } = action.payload;
   const config = {
     method: 'POST',
     data: {
-      id,
-      name,
+      storeId,
+      employeeId,
       startTime,
       endTime,
       note,
@@ -112,6 +110,7 @@ export default function* employeeData() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield fork(employeeWatcher);
+  yield fork(storeWatcher);
 
   yield takeLatest(SAVE_WORKING_DAY_REQUEST, saveWorkingDaySaga);
   yield takeLatest(UPDATE_WORKING_DAY_REQUEST, updateWorkingDaySaga);

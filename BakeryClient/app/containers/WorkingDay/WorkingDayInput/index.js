@@ -14,12 +14,15 @@ import moment from 'moment';
 
 import {
   loadEmployeeListRequest,
-
 } from '../../Employee/actions';
 
 import {
+  loadStoreListRequest
+} from '../../Store/actions';
+import {
   makeSelectEmployeeList,
 } from '../../Employee/selectors';
+import { makeSelectStoreList } from '../../Store/selectors';
 
 class WorkingDayInput extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -36,14 +39,17 @@ class WorkingDayInput extends React.Component {
     super(props);
     const { workingDayList } = this.props;
     const { id } = this.props.match.params;
-
+    const startTimeNow = new Date();
+    startTimeNow.setHours(4, 30);
+    const endTimeNow = new Date();
+    endTimeNow.setHours(9, 30);
     if (id && workingDayList.length) {
       const currentWorkingDay = workingDayList.find(workingDay => (
         workingDay.id === id
       ));
-      const { birthday, firstOpenedDate } = currentWorkingDay;
-      currentWorkingDay.birthday = birthday ? moment(birthday).format('YYYY-MM-DD') : '';
-      currentWorkingDay.firstOpenedDate = firstOpenedDate ? moment(firstOpenedDate).format('YYYY-MM-DD') : '';
+      // const { birthday, firstOpenedDate } = currentWorkingDay;
+      // currentWorkingDay.birthday = birthday ? moment(birthday).format('YYYY-MM-DD') : '';
+      // currentWorkingDay.firstOpenedDate = firstOpenedDate ? moment(firstOpenedDate).format('YYYY-MM-DD') : '';
       this.state = {
         openDialog: false,
         mode: UPDATE_EDIT,
@@ -58,8 +64,8 @@ class WorkingDayInput extends React.Component {
           store: null,
           employee: null,
           workingDate: new Date(),
-          fromTime: null,
-          toTime: null,
+          startTime: startTimeNow,
+          endTime: endTimeNow,
           note: '',
         },
       };
@@ -69,18 +75,45 @@ class WorkingDayInput extends React.Component {
 
   componentDidMount() {
     this.props.actions.loadEmployeeListRequest();
+    this.props.actions.loadStoreListRequest();
   }
 
   handleFormChange = values => this.setState({ values });
 
+
   handleFormSubmit = () => {
     const { actions } = this.props;
+    // const { values } = this.state;
+    const { id, store, employee, workingDate, startTime, endTime, note } = this.state.values;
+    let fromDateTime;
+    let toDateTime;
+    if (startTime instanceof Date) {
+      fromDateTime = new Date(startTime.getTime());
+      toDateTime = new Date(endTime.getTime());
+      fromDateTime.setDate(workingDate.getDate());
+      toDateTime.setDate(workingDate.getDate());
+    } else {
+      fromDateTime = new Date(startTime);
+      toDateTime = new Date(endTime);
+      const dWorkingDate = new Date(workingDate);
+      fromDateTime.setDate(dWorkingDate.getDate());
+      toDateTime.setDate(dWorkingDate.getDate());
+    }
+
+    const workingDayModel = {
+      id,
+      storeId: store.id,
+      employeeId: employee.id,
+      startTime: fromDateTime,
+      endTime: toDateTime,
+      note,
+    };
     (this.state.mode === UPDATE_EDIT)
-      ? actions.updateWorkingDayRequest(this.state.values)
-      : actions.saveWorkingDayRequest(this.state.values);
+      ? actions.updateWorkingDayRequest(workingDayModel)
+      : actions.saveWorkingDayRequest(workingDayModel);
   }
 
-  handleGoToList = () => this.props.history.push('/workingDay/list');
+  handleGoToList = () => this.props.history.push('/working-day/list');
 
   handleClickOpen = () => {
     this.setState({ openDialog: true });
@@ -91,14 +124,9 @@ class WorkingDayInput extends React.Component {
     this.setState({ openDialog: false });
   };
 
-  handleEmployeeChange = value => {
-    // if (value && value.length > 0) {
-    //   this.props.actions.setEmployeesPerStore(value);
-    // }
-  };
   render() {
     const { values, openDialog } = this.state;
-    const { requestError, employeeList } = this.props;
+    const { requestError, employeeList, storeList } = this.props;
 
     return (
       <div>
@@ -108,7 +136,7 @@ class WorkingDayInput extends React.Component {
           onChange={this.handleFormChange}
           onCancel={this.handleGoToList}
           employeeList={employeeList}
-          onEmployeeChange={this.handleEmployeeChange}
+          storeList={storeList}
           disabled={false}
           busy={false}
         />
@@ -127,6 +155,7 @@ const mapStateToProps = createStructuredSelector({
   requestError: makeSelectRequestError(),
   requestSuccess: makeSelectRequestSuccess(),
   employeeList: makeSelectEmployeeList(),
+  storeList: makeSelectStoreList(),
 });
 
 
@@ -138,6 +167,7 @@ const mapDispatchToProps = (dispatch) => ({
       loadWorkingDayPerIdRequest,
       resetWorkingDaySuccess,
       loadEmployeeListRequest,
+      loadStoreListRequest,
     },
     dispatch,
   ),
@@ -153,6 +183,7 @@ WorkingDayInput.propTypes = {
   match: PropTypes.object,
   workingDayList: PropTypes.array,
   employeeList: PropTypes.array,
+  storeList: PropTypes.array,
 };
 
 export default compose(

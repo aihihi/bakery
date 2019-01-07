@@ -25,12 +25,27 @@ namespace BakeryAPI.Controllers
 
         // GET: api/WorkingDays
         [HttpGet]
-        public IEnumerable<WorkingDay> GetWorkingDay()
+        public IEnumerable<Object> GetWorkingDay()
         {
-            //var res = from stores in _context.Stores
-            //          join employees in _context.Employees
-            //          on stores.Id equals employees.storeId;
-            return _context.WorkingDay;
+            var res = (from working in _context.WorkingDay
+                       join stores in _context.Stores on working.StoreId equals stores.Id
+                       join employees in _context.Employees on working.EmployeeId equals employees.Id
+                       select new
+                       {
+                           working.Id,
+                           employee = employees.FullName,
+                           store = stores.Name,
+                           workingDay = working.StartTime,
+                           working.StartTime,
+                           working.EndTime,
+                           working.Note,
+                           working.EmployeeId,
+                           working.StoreId,
+                       })
+                       .OrderBy(x => x.StartTime);
+                      //.GroupBy(x => x.StartTime);
+            return res;
+            //return _context.WorkingDay;
         }
 
         // GET: api/WorkingDays/5
@@ -96,7 +111,10 @@ namespace BakeryAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            Guid id = Guid.NewGuid();
+            workingDay.Id = id;
             _context.WorkingDay.Add(workingDay);
+
             try
             {
                 await _context.SaveChangesAsync();

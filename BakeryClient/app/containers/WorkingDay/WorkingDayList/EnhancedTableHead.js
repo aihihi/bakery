@@ -10,9 +10,9 @@ import TableSortLabel from '@material-ui/core/TableSortLabel/TableSortLabel';
 import PropTypes from 'prop-types';
 
 const rows = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Store Name' },
-  { id: 'address', numeric: false, disablePadding: false, label: 'Address' },
-  { id: 'leader', numeric: false, disablePadding: false, label: 'Team Leader' },
+  { id: 'store', numeric: false, disablePadding: true, label: 'Store Name' },
+  { id: 'employee', numeric: false, disablePadding: false, label: 'Employee Name' },
+  { id: 'workingDay', numeric: false, disablePadding: false, label: 'Working Day' },
   { id: 'actions', numeric: true, disablePadding: false, label: 'Actions' },
 ];
 

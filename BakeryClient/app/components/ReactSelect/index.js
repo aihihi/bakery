@@ -222,7 +222,7 @@ class IntegrationReactSelect extends React.Component {
   // };
 
   render() {
-    const { classes, theme, options, multi, handleChange, selectedValues, valueField, labelField, title, placeHolder } = this.props;
+    const { error, helperText, classes, theme, options, multi, handleChange, selectedValues, valueField, labelField, title, placeHolder } = this.props;
 
     const selectStyles = {
       input: base => ({
@@ -241,6 +241,14 @@ class IntegrationReactSelect extends React.Component {
             <Select
               classes={classes}
               styles={selectStyles}
+              textFieldProps={{
+                error,
+                helperText,
+                label: title,
+                InputLabelProps: {
+                  shrink: true,
+                },
+              }}
               options={options}
               components={components}
               value={selectedValues}
