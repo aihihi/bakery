@@ -81,7 +81,9 @@ namespace BakeryAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return CreatedAtAction("GetStores", new { id = stores.Id }, stores);
+
+            //return NoContent();
         }
 
         // POST: api/Stores

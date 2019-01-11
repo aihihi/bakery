@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Switch, Route, withRouter, Link } from 'react-router-dom';
-import injectReducer from 'utils/injectReducer';
+// import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
 // import messages from '../messages';
@@ -13,7 +13,7 @@ import { makeSelectStoreList, makeSelectCurrentStore, makeSelectRequestError, ma
 import { loadStoreListRequest, deleteStoreRequest, setCurrentStore, resetStoreSuccess } from './actions';
 import StoreInput from './StoreInput';
 import StoreList from './StoreList';
-import reducer from './reducer';
+// import reducer from './reducer';
 import saga from './saga';
 
 /* eslint-disable react/prefer-stateless-function */

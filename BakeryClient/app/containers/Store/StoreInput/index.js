@@ -22,6 +22,7 @@ import {
   saveStoreRequest,
   updateStoreRequest,
   resetStoreSuccess,
+  setCurrentStore,
 } from '../actions';
 
 import {
@@ -46,15 +47,14 @@ class StoreInput extends React.Component {
     }
     return null;
   }
+
   constructor(props) {
     super(props);
     const { storeList } = this.props;
     const { id } = this.props.match.params;
 
     if (id && storeList.length) {
-      const currentStore = storeList.find(store => (
-        store.id === id
-      ));
+      const currentStore = storeList.find(store => store.id === id);
       const { birthday, firstOpenedDate } = currentStore;
       currentStore.birthday = birthday ? moment(birthday).format('YYYY-MM-DD') : '';
       currentStore.firstOpenedDate = firstOpenedDate ? moment(firstOpenedDate).format('YYYY-MM-DD') : '';
@@ -162,6 +162,7 @@ const mapDispatchToProps = (dispatch) => ({
       setEmployeeWorkingFor,
       loadEmployeePerStoreRequest,
       setEmployeesPerStore,
+      setCurrentStore,
     },
     dispatch,
   ),
