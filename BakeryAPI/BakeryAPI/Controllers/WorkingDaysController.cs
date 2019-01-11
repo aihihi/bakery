@@ -43,9 +43,7 @@ namespace BakeryAPI.Controllers
                            working.StoreId,
                        })
                        .OrderBy(x => x.StartTime);
-                      //.GroupBy(x => x.StartTime);
             return res;
-            //return _context.WorkingDay;
         }
 
         // GET: api/WorkingDays/5

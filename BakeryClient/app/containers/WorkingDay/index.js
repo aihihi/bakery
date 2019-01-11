@@ -10,7 +10,27 @@ import injectSaga from 'utils/injectSaga';
 
 // import messages from '../messages';
 import { makeSelectWorkingDayList, makeSelectCurrentWorkingDay, makeSelectRequestError, makeSelectRequestSuccess } from './selectors';
-import { loadWorkingDayListRequest, deleteWorkingDayRequest, setCurrentWorkingDay, resetWorkingDaySuccess } from './actions';
+import {
+  loadWorkingDayListRequest,
+  deleteWorkingDayRequest,
+  setCurrentWorkingDay,
+  resetWorkingDaySuccess,
+} from './actions';
+import {
+  loadStoreListRequest
+} from '../Store/actions';
+import {
+  makeSelectEmployeeList
+} from '../Employee/selectors';
+
+import {
+  makeSelectStoreList
+} from '../Store/selectors';
+
+import {
+  loadEmployeeListRequest
+} from '../Employee/actions';
+
 import WorkingDayInput from './WorkingDayInput';
 import WorkingDayList from './WorkingDayList';
 import reducer from './reducer';
@@ -19,42 +39,49 @@ import saga from './saga';
 /* eslint-disable react/prefer-stateless-function */
 export class WorkingDay extends React.Component {
 
+  
   componentDidMount() {
+    this.props.actions.loadStoreListRequest();
+    this.props.actions.loadEmployeeListRequest();
     this.props.actions.loadWorkingDayListRequest();
+
   }
 
-  componentDidUpdate(prevProps) {
-    const { currentWorkingDay, actions } = this.props;
-    if (prevProps.currentWorkingDay !== currentWorkingDay) {
-      actions.loadWorkingDayListRequest();
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   const { currentWorkingDay, actions } = this.props;
+  //   if (prevProps.currentWorkingDay !== currentWorkingDay) {
+  //     actions.loadWorkingDayListRequest();
+  //   }
+  // }
 
   render() {
+    const { employeeList, storeList, workingDayList } = this.props;
     return (
       <div>
         <Switch>
           <Route
             path={`${this.props.match.url}`}
             exact
-            render={(routeProps) => (
-              <WorkingDayList {...routeProps} data={this.props.workingDayList} />
-            )}
+            component={WorkingDayList}
+            // render={(routeProps) => (
+            //   <WorkingDayList {...routeProps} data={this.props.workingDayList} />
+            // )}
           />
           <Route
             path={`${this.props.match.url}/list`}
             exact
-            render={(routeProps) => (
-              <WorkingDayList
-                {...routeProps}
-                data={this.props.workingDayList}
-                deleteWorkingDayRequest={this.props.actions.deleteWorkingDayRequest}
-                setCurrentWorkingDay={this.props.actions.setCurrentWorkingDay}
-                requestSuccess={this.props.requestSuccess}
-                requestError={this.props.requestError}
-                resetWorkingDaySuccess={this.props.actions.resetWorkingDaySuccess}
-              />
-            )}
+            component={WorkingDayList}
+            // render={(routeProps) => (
+            //   <WorkingDayList
+            //     {...routeProps}
+            //     data={this.props.workingDayList}
+            //     deleteWorkingDayRequest={this.props.actions.deleteWorkingDayRequest}
+            //     setCurrentWorkingDay={this.props.actions.setCurrentWorkingDay}
+            //     requestSuccess={this.props.requestSuccess}
+            //     requestError={this.props.requestError}
+            //     resetWorkingDaySuccess={this.props.actions.resetWorkingDaySuccess}
+            //   />
+            // )}
           />
           <Route
             path={`${this.props.match.url}/add-new`}
@@ -62,12 +89,13 @@ export class WorkingDay extends React.Component {
             component={WorkingDayInput}
 
           />
-          { this.props.workingDayList && this.props.workingDayList.length &&
+          {employeeList && employeeList.length && storeList && storeList.length && workingDayList &&
+            workingDayList.length &&
             <Route
               path={`${this.props.match.url}/:id`}
               exact
               render={props => <WorkingDayInput {...props} />}
-            /> }
+            />}
 
         </Switch>
       </div>
@@ -86,6 +114,8 @@ const mapStateToProps = createStructuredSelector({
   currentWorkingDay: makeSelectCurrentWorkingDay(),
   requestSuccess: makeSelectRequestSuccess(),
   requestError: makeSelectRequestError(),
+  storeList: makeSelectStoreList(),
+  employeeList: makeSelectEmployeeList(),
 });
 
 
@@ -95,6 +125,8 @@ const mapDispatchToProps = (dispatch) => ({actions:
       deleteWorkingDayRequest,
       setCurrentWorkingDay,
       resetWorkingDaySuccess,
+      loadStoreListRequest,
+      loadEmployeeListRequest,
     },
       dispatch),
 });

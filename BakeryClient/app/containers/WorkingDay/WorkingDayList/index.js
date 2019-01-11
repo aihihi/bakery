@@ -1,5 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
+import { compose, bindActionCreators } from 'redux';
 
 import Paper from '@material-ui/core/Paper/Paper';
 import Table from '@material-ui/core/Table/Table';
@@ -21,7 +23,23 @@ import EditIcon from '@material-ui/icons/Edit';
 import AddCircle from '@material-ui/icons/AddCircle';
 import AlertDialogSlide from 'components/DialogSlide';
 
+import { createStructuredSelector } from 'reselect/lib/index';
 import EnhancedTableHead from './EnhancedTableHead';
+
+import {
+  deleteWorkingDayRequest,
+  loadWorkingDayListRequest,
+  resetWorkingDaySuccess,
+  setCurrentWorkingDay,
+} from '../actions';
+// import { loadEmployeeListRequest } from '../../Employee/actions';
+// import { loadStoreListRequest } from '../../Store/actions';
+import {
+  makeSelectCurrentWorkingDay,
+  makeSelectRequestError,
+  makeSelectRequestSuccess,
+  makeSelectWorkingDayList,
+} from '../selectors';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -144,6 +162,17 @@ class WorkingDayList extends React.Component {
     rowsPerPage: 5,
   };
 
+  componentDidMount() {
+    this.props.actions.loadWorkingDayListRequest();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { currentWorkingDay, actions } = this.props;
+    if (prevProps.currentWorkingDay !== currentWorkingDay) {
+      actions.loadWorkingDayListRequest();
+    }
+  }
+
   handleRequestSort = (event, property) => {
     const orderBy = property;
     let order = 'desc';
@@ -157,7 +186,7 @@ class WorkingDayList extends React.Component {
 
   handleSelectAllClick = event => {
     if (event.target.checked) {
-      this.setState(state => ({ selected: this.props.data.map(n => n.id) }));
+      this.setState(state => ({ selected: this.props.workingDayList.map(n => n.id) }));
       return;
     }
     this.setState({ selected: [] });
@@ -182,19 +211,19 @@ class WorkingDayList extends React.Component {
     }
 
     this.setState({ selected: newSelected },() => {
-      const { data, setCurrentWorkingDay } = this.props;
+      const { workingDayList, actions } = this.props;
       const itemList = this.state.selected;
       const currentId =
         itemList.length > 0 ? itemList[itemList.length - 1] : null;
-      const current = data.find(item => item.id === currentId);
-      setCurrentWorkingDay(current);
+      const current = workingDayList.find(item => item.id === currentId);
+      actions.setCurrentWorkingDay(current);
     });
   };
 
   handleDeletePerId = () => {
     const { selected } = this.state;
     selected.map(workingDayId => {
-      this.props.deleteWorkingDayRequest(workingDayId);
+      this.props.actions.deleteWorkingDayRequest(workingDayId);
     });
     this.setState({ selected: [] });
   }
@@ -210,16 +239,16 @@ class WorkingDayList extends React.Component {
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   handleClose = () => {
-    this.props.resetWorkingDaySuccess();
+    this.props.actions.resetWorkingDaySuccess();
   };
 
   render() {
-    const { classes, data, requestSuccess, requestError } = this.props;
-    if (!data) {
+    const { classes, workingDayList, requestSuccess, requestError } = this.props;
+    if (!workingDayList) {
       return null;
     }
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, workingDayList.length - page * rowsPerPage);
 
     return (
       <Paper className={classes.root}>
@@ -232,10 +261,10 @@ class WorkingDayList extends React.Component {
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
+              rowCount={workingDayList.length}
             />
             <TableBody>
-              {stableSort(data, getSorting(order, orderBy))
+              {stableSort(workingDayList, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
                   const isSelected = this.isSelected(n.id);
@@ -278,7 +307,7 @@ class WorkingDayList extends React.Component {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={data.length}
+          count={workingDayList.length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
@@ -300,7 +329,34 @@ class WorkingDayList extends React.Component {
 
 WorkingDayList.propTypes = {
   classes: PropTypes.object.isRequired,
-  data: PropTypes.array,
+  actions: PropTypes.object,
+  workingDayList: PropTypes.array,
 };
 
-export default withStyles(styles)(WorkingDayList);
+const mapStateToProps = createStructuredSelector({
+  workingDayList: makeSelectWorkingDayList(),
+  currentWorkingDay: makeSelectCurrentWorkingDay(),
+  requestSuccess: makeSelectRequestSuccess(),
+  requestError: makeSelectRequestError(),
+});
+
+
+const mapDispatchToProps = (dispatch) => ({actions:
+    bindActionCreators({
+      loadWorkingDayListRequest,
+      deleteWorkingDayRequest,
+      setCurrentWorkingDay,
+      resetWorkingDaySuccess,
+      },
+      dispatch),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+export default compose(
+  withConnect,
+  withStyles(styles),
+)(WorkingDayList);
+// export default withStyles(styles)(WorkingDayList);

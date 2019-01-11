@@ -35,26 +35,50 @@ class WorkingDayInput extends React.Component {
     }
     return null;
   }
+
   constructor(props) {
     super(props);
     const { workingDayList } = this.props;
-    const { id } = this.props.match.params;
+    const workingId = this.props.match.params.id;
+    const { employeeList, storeList } = this.props;
     const startTimeNow = new Date();
     startTimeNow.setHours(4, 30);
     const endTimeNow = new Date();
     endTimeNow.setHours(9, 30);
-    if (id && workingDayList.length) {
-      const currentWorkingDay = workingDayList.find(workingDay => (
-        workingDay.id === id
-      ));
+    if (workingId && workingDayList.length) {
+      const currentWorkingDay = workingDayList.find(
+        workingDay => workingDay.id === workingId,
+      );
       // const { birthday, firstOpenedDate } = currentWorkingDay;
       // currentWorkingDay.birthday = birthday ? moment(birthday).format('YYYY-MM-DD') : '';
       // currentWorkingDay.firstOpenedDate = firstOpenedDate ? moment(firstOpenedDate).format('YYYY-MM-DD') : '';
-      this.state = {
-        openDialog: false,
-        mode: UPDATE_EDIT,
-        values: currentWorkingDay,
-      };
+      if (currentWorkingDay) {
+        const employee = employeeList.find(em => em.id === currentWorkingDay.employeeId);
+        const store = storeList.find(st => st.id === currentWorkingDay.storeId);
+
+        // let employee;
+        // let store;
+        // if (employeeList) {
+        //   employee = employeeList.find(em => em.id === currentWorkingDay.employeeId);
+        // }
+        // if (storeList) {
+        //   store = storeList.find(st => st.id === currentWorkingDay.storeId);
+        // }
+        const { id, startTime, endTime, note } = currentWorkingDay;
+        this.state = {
+          openDialog: false,
+          mode: UPDATE_EDIT,
+          values: {
+            id,
+            store,
+            employee,
+            workingDate: new Date(endTime),
+            startTime: new Date(startTime),
+            endTime: new Date(endTime),
+            note,
+          },
+        };
+      }
     } else {
       this.state = {
         openDialog: false,
@@ -74,8 +98,8 @@ class WorkingDayInput extends React.Component {
   }
 
   componentDidMount() {
-    this.props.actions.loadEmployeeListRequest();
-    this.props.actions.loadStoreListRequest();
+    // this.props.actions.loadEmployeeListRequest();
+    // this.props.actions.loadStoreListRequest();
   }
 
   handleFormChange = values => this.setState({ values });
@@ -130,16 +154,19 @@ class WorkingDayInput extends React.Component {
 
     return (
       <div>
-        <WorkingDayInputForm
-          initialValues={values}
-          onSubmit={this.handleFormSubmit}
-          onChange={this.handleFormChange}
-          onCancel={this.handleGoToList}
-          employeeList={employeeList}
-          storeList={storeList}
-          disabled={false}
-          busy={false}
+        {
+          employeeList && storeList &&
+          <WorkingDayInputForm
+            initialValues={values}
+            onSubmit={this.handleFormSubmit}
+            onChange={this.handleFormChange}
+            onCancel={this.handleGoToList}
+            employeeList={employeeList}
+            storeList={storeList}
+            disabled={false}
+            busy={false}
         />
+        }
         <AlertDialogSlide message={requestError} open={this.state.openDialog && requestError} handleClose={this.handleClose} />
         { openDialog && <AlertDialogSlide message='Successfully Update Database' open handleClose={this.handleClose}/> }
       </div>

@@ -60,10 +60,11 @@ export function* deleteWorkingDaySaga(action) {
 
 export function* updateWorkingDaySaga(action) {
   const requestURL = `WorkingDays/${action.payload.id}`;
-  const { storeId, employeeId, startTime, endTime, note } = action.payload;
+  const { id, storeId, employeeId, startTime, endTime, note } = action.payload;
   const config = {
     method: 'PUT',
     data: {
+      id,
       storeId,
       employeeId,
       startTime,

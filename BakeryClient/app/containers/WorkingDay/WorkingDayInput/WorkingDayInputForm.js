@@ -15,6 +15,9 @@ import { withFormValidation, hasErrors} from 'components/ValidatedFormHOC';
 // import messages from '../../messages';
 
 const styles = (theme) => ({
+  formInput: {
+    marginTop: 20,
+  },
   buttonWrapper: {
     display: 'flex',
     alignItems: 'center',
@@ -30,10 +33,10 @@ const styles = (theme) => ({
   },
   endTime: {
     marginLeft: 20,
-  }
+  },
 });
 
-const nowDate = () => new Date();
+// const nowDate = () => new Date();
 
 const WorkingDayInputForm = ({ intl, classes, employeeList, storeList, onSubmit, onChange, onCancel, values, disabled, busy, errors, onBlur, onSubmitFocus }) => {
   const handleChange = (name) => (event) => onChange(name, event.target.value);
@@ -42,7 +45,7 @@ const WorkingDayInputForm = ({ intl, classes, employeeList, storeList, onSubmit,
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <form noValidate autoComplete="off" onSubmit={onSubmit}>
+      <form noValidate autoComplete="off" onSubmit={onSubmit} className={classes.formInput}>
         <ReactSelect
           error={hasErrors(errors.employee)}
           helperText={hasErrors(errors.employee) ? errors.employee : null}
